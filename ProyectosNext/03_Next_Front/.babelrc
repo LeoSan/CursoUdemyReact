@@ -1,0 +1,9 @@
+{
+    "presents": [
+        "next/babel", 
+        "@emtion/babel-present-css-prop",
+    ],
+    "plugins":[
+        "emotion"
+    ]
+}

@@ -1,0 +1,59 @@
+.tituloPage{
+    text-align: center;
+    font-size: 4rem;
+    margin-top: 4rem;
+}
+
+.tituloHabitacion{
+    text-align: center;
+    font-size: 5rem;
+    margin-top: 3rem;
+}
+
+.listadoHabitaciones{
+    max-width: 1200px;
+    width: 95%;
+    margin: 4rem auto 0 auto;
+
+}
+
+.contHabitaciones{
+    border: 1px solid #e1e1e1;
+    margin-bottom: 2rem;
+}
+
+.contHabitacionesDe{
+    padding: 3rem;
+}
+
+.contMain{
+    margin:0 auto;
+    max-width: 1200px;
+    width: 95%;
+}
+
+.parrafoFooter{
+    text-align: center;
+    color: #fff;
+    background-color: rgb(33,44,55);
+    margin: 0;
+    padding: 1rem;
+}
+
+
+
+@media (min-width: 768px) {
+
+    .listadoHabitaciones{
+        max-width: 1200px;
+        width: 95%;
+        margin: 4rem auto 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 3rem;
+        text-align: center;
+    
+    }
+
+  }
+
