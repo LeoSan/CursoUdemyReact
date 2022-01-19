@@ -7,6 +7,33 @@ Usaremos Vite para los nuevos proyectos en react.
 
 - `npm init vite@latest` -> Ejecutamos damos (Y) -> luego colocamos nombre del proyecto -> Luego escogemos tecnología. 
 - `npm run dev`
+- `npm install -D tailwindcss@latest postcss@latest autoprefixer@latest` -> Para instalar tailwind 
+- `npx tailwindcss init -p` -> genera los archivos configuradores 
+  ```
+  /*Paso 1: De configuración */
+  tailwind.config.js
+  
+module.exports = {
+  purge: ["index.html", "./src/**/*.jsx"],
+  
+  theme: {
+      extend: {},
+  },
+  variants: {
+      extend: {},
+  },
+  plugins: [],
+};
+
+
+/*Paso 2: Buscamos citas-react\src\index.css  */
+
+Debemos importar tailwind 
+@import "tailwindcss/base"
+@import "tailwindcss/components"
+@import "tailwindcss/utilities"
+
+  ```
 
 
 ## Notas: 
@@ -21,3 +48,73 @@ Luego de ejecutar el comando podemos escoger que tecnología
 ![Instalacion](./info/Instalacion_vite.png)
 
 ![Instalacion](./info/Oprando.png)
+
+### Conceptos 
+
+Que es jsx -> Es un lenguaje de template que muestra html pero tiene las funciones de JS. 
+
+
+![Ques es Jsx](./info/queJSX.jpeg)
+
+> Reglas Jsx 
+- Se debe incluir el cierre de las etiquetas. 
+- Como estamos  usando vite -> cada archivo debe tener extensión jsx si hubiera sido un proyecto con esencia react podemos usar extensiones .js 
+- Cada componente debe tener un return : Esto quiere decir que los elementos html deben estar metidos en una caja bien sea un div o span setion etc. ejemplo
+
+```
+  return (
+    <div className="App"> -> Nivel Alto 
+      <h1>Hola mundo</h1> - Nivel Bajo 
+      <p>Hola mundo 1</p>
+      <p>Hola mundo2</p>
+    </div>
+  )
+
+  Otro ejemplo 
+  return (
+    <div className="App"> -> Nivel Alto 
+        <div> - Nivel Bajo 
+            <h1>Hola mundo</h1> - Nivel Bajo 
+            <p>Hola mundo 1</p>
+            <p>Hola mundo2</p>
+        
+        </div>
+        <div> - Nivel Bajo 
+            <h1>Hola mundo</h1> - Nivel Bajo 
+            <p>Hola mundo 1</p>
+            <p>Hola mundo2</p>
+        
+        </div>
+    </div>
+  )
+
+
+Ejemplo Para evitar tantos div es un fragment 
+<>
+
+    <div className="App"> -> Nivel Alto 
+        <div> - Nivel Bajo 
+            <h1>Hola mundo</h1> - Nivel Bajo 
+            <p>Hola mundo 1</p>
+            <p>Hola mundo2</p>
+        
+        </div>
+        <div> - Nivel Bajo 
+            <h1>Hola mundo</h1> - Nivel Bajo 
+            <p>Hola mundo 1</p>
+            <p>Hola mundo2</p>
+        
+        </div>
+    </div>
+
+</>
+
+```
+- el ciere debe ser </>
+- Lo que esta dentro del return es lo que se va ver en pantalla 
+
+## Exntesiones que se recomienda 
+-ES7 -  https://github.com/dsznajder/vscode-react-javascript-snippets/blob/HEAD/docs/Snippets.md
+  - rfcp  -> genera extructura con prototype
+  - rfce -> Generar estrcutura 
+  - rafce -> funcion flecha 
