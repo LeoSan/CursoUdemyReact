@@ -26,16 +26,13 @@ module.exports = {
 };
 
 
-/*Paso 2: Buscamos citas-react\src\index.css  */
-
+*Paso 2: Buscamos citas-react\src\index.css*
+```
 Debemos importar tailwind 
 @import "tailwindcss/base"
 @import "tailwindcss/components"
 @import "tailwindcss/utilities"
-
-  ```
-
-
+```
 ## Notas: 
 Luego de ejecutar el comando podemos escoger que tecnología
 - Para este caso vamos a escoger react. 
@@ -118,3 +115,25 @@ Ejemplo Para evitar tantos div es un fragment
   - rfcp  -> genera extructura con prototype
   - rfce -> Generar estrcutura 
   - rafce -> funcion flecha 
+
+
+## Hooks 
+
+Hooks : De manera simple son funciones que ayudena tu proyecto a ser manejados por estados.
+![Hooks](./info/Hooks.png)
+
+Hooks Basicos
+- useState
+- useEffect 
+- useContext
+
+Hooks Complejos 
+- useReducer
+- useCallback
+- useMemo
+- useRef
+- useLayoutEffct
+- useDabugValue
+- useImperativeHandle
+
+**Tambien puedes Crear tus propios Hooks **
