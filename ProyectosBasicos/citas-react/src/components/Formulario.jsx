@@ -1,14 +1,66 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-const Formulario = () => {
+import Error from '../components/Error';
+const Formulario = ({pacientes, setPacientes}) => {
+
+  const [nombre, setNombre] = useState('');
+  const [propietario, setPropietario] = useState('');
+  const [email, setEmail] = useState('');
+  const [fecha, setFecha] = useState('');
+  const [sintomas, setSintomas] = useState('');
+  
+  const [error, setError] = useState(false);
+  
+  const handleSubmit=(e)=>{
+      e.preventDefault();
+      console.log("enviando formulario");
+
+      if ( [nombre, propietario, email, fecha,  sintomas].includes('')){
+        setError(true);
+        return;
+
+      }
+
+    //Genear Id
+    const generarId = ()=>{
+      const random = Math.random().toString(36).substring(2) + Date.now();
+      const fecha =  Date.now().toString(36);
+      return random + fecha;
+    }
+
+      setError(false);
+      //Objeto de Paciente
+      let ObjetoPaciente ={
+        nombre, 
+        propietario, 
+        email, 
+        fecha,  
+        sintomas,
+        id:generarId() 
+      }
+      setPacientes( [...pacientes, ObjetoPaciente]);
+
+      //Reiniciar el formulario 
+     /* setNombre('');
+      setPropietario('');
+      setEmail('');
+      setFecha('');
+      setSintomas('');*/
+  }
+
   return (
-      <div className='md:w-1/2 lg:w-2/5 '>
+      <div className='md:w-1/2 lg:w-2/5 mx-5'>
         <h2 className='font-black text-3xl text-center'>Seguimiento Pacientes</h2>
         <p className='text-lg mt-5 text-center mb-10'>Añade Pacientes {' '}
           <span className='text-indigo-600 font-bold'>y Administrarlos</span>
         </p>
-        <form className='bg-green-200 shadow-md rounded py-10 px-5 mb-10'>
+        <form 
+            onSubmit={handleSubmit}
+            className='bg-green-200 shadow-md rounded py-10 px-5 mb-10'
+        >
+          
+          {error && <Error children={'Campos obligatorios'}/>}
           <div className="mb-5">
             <label htmlFor="mascota" className='block text-gray uppercase font-bold'>Nombre Mascota</label>
             <input 
@@ -16,6 +68,8 @@ const Formulario = () => {
               type="text"
               placeholder='Nombre de la mascota'
               className='border-2 w-full p-2 placeholder-blue-400 rounded-md'
+              value={nombre}
+              onChange={ (e) => setNombre(e.target.value) }
             />
           
           </div>          
@@ -26,16 +80,21 @@ const Formulario = () => {
               type="text"
               placeholder='Nombre del propietario'
               className='border-2 w-full p-2 placeholder-blue-400 rounded-md'
+              value={propietario}
+              onChange={ (e) => setPropietario(e.target.value) }
+
             />
           
           </div>          
           <div className="mb-5">
             <label htmlFor="email" className='block text-gray uppercase font-bold'>Email</label>
             <input 
-              id='propietario'
+              id='email'
               type="email"
               placeholder='Ingresa Correo del contacto'
               className='border-2 w-full p-2 placeholder-blue-400 rounded-md'
+              value={email}
+              onChange={ (e) => setEmail(e.target.value) }              
             />
           
           </div>          
@@ -45,6 +104,9 @@ const Formulario = () => {
               id='alta'
               type="date"
               className='border-2 w-full p-2 placeholder-blue-400 rounded-md'
+              value={fecha}
+              onChange={ (e) => setFecha(e.target.value) }
+
             />
           
           </div>          
@@ -54,6 +116,8 @@ const Formulario = () => {
               id='sintomas'
               placeholder='Describe los sintomas'
               className='border-2 w-full p-2 placeholder-blue-400 rounded-md'
+              value={sintomas}
+              onChange={ (e) => setSintomas(e.target.value) }
             />
           
           </div>
