@@ -2,15 +2,30 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 
 import Error from '../components/Error';
-const Formulario = ({pacientes, setPacientes}) => {
+const Formulario = ({pacientes, setPacientes, pacienteEditar, setPaciente}) => {
 
   const [nombre, setNombre] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
   const [fecha, setFecha] = useState('');
   const [sintomas, setSintomas] = useState('');
+  const [textoBoton, setTextoBoton] = useState('Agregar Paciente');
   
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+  
+    if(Object.keys(pacienteEditar).length > 0){
+      setTextoBoton('Editar Paciente');
+      setNombre(pacienteEditar.nombre);
+      setPropietario(pacienteEditar.propietario);
+      setEmail(pacienteEditar.email);
+      setFecha(pacienteEditar.fecha);
+      setSintomas(pacienteEditar.sintomas);
+      
+    }
+
+  }, [pacienteEditar]); 
   
   const handleSubmit=(e)=>{
       e.preventDefault();
@@ -36,10 +51,23 @@ const Formulario = ({pacientes, setPacientes}) => {
         propietario, 
         email, 
         fecha,  
-        sintomas,
-        id:generarId() 
+        sintomas
       }
-      setPacientes( [...pacientes, ObjetoPaciente]);
+
+      if (pacienteEditar.id){
+        //Editando registro 
+        ObjetoPaciente.id = pacienteEditar.id;
+        const pacientesActualizados = pacientes.map((elemento)=> elemento.id === pacienteEditar.id ? ObjetoPaciente : elemento);
+        setPacientes( pacientesActualizados);
+        setTextoBoton('Agregar Paciente');
+        setPaciente({});
+        
+      }else{
+        //Registrando nuevo registro
+        ObjetoPaciente.id = generarId();  
+        setPacientes( [...pacientes, ObjetoPaciente]);
+      }
+      
 
       //Reiniciar el formulario 
      /* setNombre('');
@@ -123,7 +151,7 @@ const Formulario = ({pacientes, setPacientes}) => {
           </div>
           <input type="submit" 
                 className='bg-indigo-400 w-full p-3 text-white uppercase font-bold hover:bg-indigo-300 cursor-pointer transition-colors'
-                value="Agregar paciente"
+                value={ textoBoton }
           />
         </form>
 

@@ -180,3 +180,25 @@ const [cliente, setCliente] = useState({});
 ![props_como_verlo](./info/props_como_verlo.png)
 
 - Children es una palabra reservada en react hace referencia a todo lo que le pases a un componente, toma todos los valores que le pases a un componente
+
+## Desplegar en netlify 
+
+Paso 1: Pues debes tener una cuenta 
+Paso 2: En la parte superior ubicar site 
+Paso 3: como estamos usando tailwind debemos configurar el tailwind.config.js de la siguiente manera. 
+
+```
+module.exports = {
+  purge: ["index.html", "./src/**/*.jsx"],
+  
+  theme: {
+      extend: {},
+  },
+  variants: {
+      extend: {},
+  },
+  plugins: [],
+};
+```
+
+Paso 4: ejecutamos el `npm run buid` genera una carpeta llamada `dist` eso lo arrastramos a site se sube y genera un enlace `https://nostalgic-golick-6f29b8.netlify.app/` donde podemos ver el resultado 
