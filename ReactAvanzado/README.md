@@ -1,10 +1,10 @@
 # React PRO: Lleva tus bases al siguiente nivel
-*Profesor: Fernando Herrera*
-*Inicio: 06/01/2023*
-*Fin: *
+- *Profesor: Fernando Herrera*
+- *Inicio: 06/01/2023*
+- *Fin: *
 
 ## Sección 1: Introducción 
-## Clase numero 1-5:  Instalaciones recomendadas - Curso de React Pro
+## Clase número 1-5:  Instalaciones recomendadas - Curso de React Pro
 
 
 **Instalaciones Necesarias**
@@ -44,7 +44,7 @@ git config --global user.email "Tu correo"
 - MDX
 
 ## Sección 2: Reforzamiento sobre React 
-## Clase 9: Inicio de proyecto - Bases de react 
+## Clase número 6-10: Inicio de proyecto - Bases de react 
 
 **Comandos para instalar proyecto en react**
 
@@ -58,7 +58,7 @@ git config --global user.email "Tu correo"
 - App.text.tsx
 > Podemos dejar el archivo principal limpio 
 ```
-App.tsx
+//App.tsx -> Es el archivo raiz 
 
 function App() {
   return (
