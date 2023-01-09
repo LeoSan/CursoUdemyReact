@@ -79,6 +79,52 @@ export default App;
 - La extensiones tipo `tsx` son archivos que tienen componenetes react 
 
 
+## Clase 11: Forma de trabajar PropTypes 
+
+>Podemos iniciar, cambiar nombre o extender Props 
+- Podemos crear las interfaz con los Props que deseamos 
+
+```
+import { useState } from "react";
+
+
+//Una manera de definir, cambiar nombre o extender Props 
+interface Props{
+  initialValue?:number
+}
+
+export const Counter = ({initialValue = 0}:Props) => {
+
+const [counter, setCounter] = useState(initialValue);
+
+  const handleClick = ()=>{
+    setCounter(prev=> prev + 1); 
+    console.log(counter);
+  }
+
+  return (
+    <>
+    
+    <h1>Counter: {counter}</h1>
+
+    <button onClick={handleClick}>
+        +1
+    </button>
+    
+    </>
+  )
+}
+```
+## Clase 13: Optimizaciones y tipado 
+> Una manera corta de destructurar dentro del estado 
+
+```
+    const [{ counter, clicks }, setCounterState] = useState<CounterState>({
+      counter:initialValue,
+      clicks:0,
+    });
+  
+```
 
 ## Sección 3: Opcional - Construcción del proyecto inicial 
 ## Sección 4: LazyLoad - Chunks - React Router Dom V5 
