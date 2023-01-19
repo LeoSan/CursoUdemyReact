@@ -8,13 +8,13 @@ interface Props{
 
 export const CounterHook = ({initialValue = 0}:Props) => {
 
-  const {counter, counterElement, handleClick} = useCounter();
+  const {counter, alementToAnime, handleClick} = useCounter({maxCunter:15});
   
   return (
     <>
     
     <h1>Counter Hook</h1>
-    <h2 id="total" ref={counterElement}>{counter}</h2>
+    <h2 id="total" ref={alementToAnime}>{counter}</h2>
 
     <button onClick={handleClick}>
         +1
