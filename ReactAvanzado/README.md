@@ -302,12 +302,64 @@ export const useCounter = ({maxCunter = 10})=>{
 - Segmentación por estados y acciones 
 - 
 
-## Clase :  
+
 
 ## Sección 3: Opcional - Construcción del proyecto inicial 
 
+## Clase 27: Inicio de proyecto 
+
+**Recordatorios**
+Pasos para crear un proyectos: 
+- Paso 1: `npx create-react-app nombreApp --template typescript`
+- Paso 2: `npm start`
 
 
+## Clase 28: Configurar rutas tradicionales - React router V6
+
+> Validar ya que la version Router V6 y V5 ambas trabajan de manera diferente 
+
+**Enlace**
+- https://reactrouter.com/en/main
 
 
+**Instalación**
+- Paso 1: Ejecutar el comando `npm install react-router-dom@6`
+
+```
+ import { BrowserRouter, Routes, Route, NavLink, Navigate  } from 'react-router-dom';
+
+ import logo from '../../logo.svg';
+
+export const Navigations = () => {
+  return (
+    <BrowserRouter>
+        <div className='main-layout'>
+            <nav>
+                <img src={logo} alt='React Logo'/>
+                <ul>
+                    <li><NavLink to="/home"  className={({isActive})=>isActive ? 'nav-active':''}>Home</NavLink></li>
+                    <li><NavLink to="/about" className={({isActive})=>isActive ? 'nav-active':''}>About</NavLink></li>
+                    <li><NavLink to="/users" className={({isActive})=>isActive ? 'nav-active':''}>User</NavLink></li>
+                </ul>
+            </nav>
+            <Routes>
+                <Route path='/home' element={<h1>Home Page</h1>}></Route>
+                <Route path='about' element={<h1>About Page</h1>}></Route>
+                <Route path='users' element={<h1>User Page</h1>}></Route>
+                
+                <Route path='/*' element={<Navigate to="/home" replace />}></Route>
+            </Routes>
+
+        </div>    
+    </BrowserRouter>
+  )
+}
+
+``` 
+
+
+**Notas**
+- Diferencia etre el Link y NavLink 
+- El `Link` es usado como una ancla 
+- El `NavLink` puede determinar si esta en una ruta y colocar con un estilo si esta activo o no, o si fue consultado o no el link
  
