@@ -6,6 +6,9 @@
 ## Sección 1: Introducción 
 ## Clase número 1-5:  Instalaciones recomendadas - Curso de React Pro
 
+**Notas Comandos Github**
+- `git push -u origin main` -> Permite que aqui sea el push por defecto 
+- `git branch -M nuevoNombre` -> Cambia el nombre del repo raiz 
 
 **Instalaciones Necesarias**
 - Visual Studio Code
@@ -324,6 +327,8 @@ Pasos para crear un proyectos:
 
 **Instalación**
 - Paso 1: Ejecutar el comando `npm install -D react-router-dom@6`
+- Paso 2: podemos crear un componente usamos el comando `rafc` y esto genera un esqueleto para crear el componente
+
 
 ```
  import { BrowserRouter, Routes, Route, NavLink, Navigate  } from 'react-router-dom';
@@ -363,3 +368,23 @@ export const Navigations = () => {
 - El `Link` es usado como una ancla 
 - El `NavLink` puede determinar si esta en una ruta y colocar con un estilo si esta activo o no, o si fue consultado o no el link
  
+## Sección 4: LazyLoad - Chunks - React Roter DOM V5 
+
+**LazyLoad**
+- Nos Permite cargar modulos bajo demanda. 
+- Podemos decidir si cargar toda la aplicación esto con el proposito si la app es muy pesada nos facilita esta decisión.  
+- LazyLoad  no es una aplicación magica, no es muy recomendable usarlo de manera descarada.
+- Es util en aplicaciones mobiles para solucionar ciertos problemas. 
+- La logica es que el LazyLoad llama un chunks cada vez que lo requiere. 
+- Se recomienda cargar todo por modulo no por componentes 
+
+```
+En esta sección vamos a llevar nuestro sistema de rutas a otro nivel, el objetivo principal sera:
+
+Aplicar Lazy Load en cada Componente
+
+Aplicar Lazy Load por módulo
+
+La idea del módulo es que nos permita cargarlo y todas sus dependencias en conjunto.
+```
+
