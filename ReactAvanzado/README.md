@@ -323,7 +323,7 @@ Pasos para crear un proyectos:
 
 
 **Instalación**
-- Paso 1: Ejecutar el comando `npm install react-router-dom@6`
+- Paso 1: Ejecutar el comando `npm install -D react-router-dom@6`
 
 ```
  import { BrowserRouter, Routes, Route, NavLink, Navigate  } from 'react-router-dom';
