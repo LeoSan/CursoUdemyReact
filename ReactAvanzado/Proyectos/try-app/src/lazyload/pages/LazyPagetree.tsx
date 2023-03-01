@@ -5,3 +5,5 @@ export const LazyPagetree = () => {
     <h1>LazyPagetree</h1>
   )
 }
+
+export default LazyPagetree;
