@@ -370,6 +370,7 @@ export const Navigations = () => {
  
 ## Sección 4: LazyLoad - Chunks - React Roter DOM V5 
 
+## Clases:32-33-64-35-36 
 **LazyLoad**
 - Nos Permite cargar modulos bajo demanda. 
 - Podemos decidir si cargar toda la aplicación esto con el proposito si la app es muy pesada nos facilita esta decisión.  
@@ -388,3 +389,127 @@ Aplicar Lazy Load por módulo
 La idea del módulo es que nos permita cargarlo y todas sus dependencias en conjunto.
 ```
 
+## Clase:38 
+
+> en esta sección se define una mejoria en cuanto a crear componentes dinamicos 
+
+```
+import {LazyPageone, LazyPagetwo, LazyPagetree} from '../../lazyload/pages';
+
+
+/* Parecido a una Clase pero no es*/
+//Creamos un tipo 
+interface Route {
+    to:string;
+    path:string;
+    Component:() => JSX.Element;//Asi nombramos a los componentes
+    name:string;
+
+}
+
+export const routes: Route[] = [
+    {
+        to:   '/lazy-1',
+        path: 'lazy-1',
+        Component: LazyPageone,
+        name:'Lazy-1'
+    },{
+        to:   '/lazy-2',
+        path: 'lazy-2',
+        Component: LazyPagetwo,
+        name:'Lazy-2'
+    },{
+        to:   '/lazy-3',
+        path: 'lazy-3',
+        Component: LazyPagetree,
+        name:'Lazy-3'
+    }, 
+
+]
+
+///System Volume Information
+import { BrowserRouter, Routes, Route, NavLink, Navigate  } from 'react-router-dom';
+import logo from '../../logo.svg';
+
+//Import to  components 
+import {LazyPageone, LazyPagetwo, LazyPagetree} from '../../lazyload/pages';
+
+import { routes } from './routes'; //Forma de crear link dinamicos 
+
+export const Navigations = () => {
+  return (
+    <BrowserRouter>
+        <div className='main-layout'>
+            <nav>
+                <img src={logo} alt='React Logo'/>
+                <ul>
+                <li><NavLink to="/home"  className={({isActive})=>isActive ? 'nav-active':''}>Home</NavLink></li>       
+                    {/*TODO: Crear  naclink dinamicos  */
+                        routes.map(route =>( 
+
+                            <li key={route.to}><NavLink to={route.to}  className={({isActive})=>isActive ? 'nav-active':''}>{route.name}</NavLink></li>
+                            
+                        ))
+                    }
+                </ul>
+            </nav>
+            <Routes>
+                <Route path='/home'    element={<h1>Home Page</h1>}></Route>
+                <Route path='lazyone'  element={ <LazyPageone/> }></Route>
+                {
+                    routes.map(route =>( 
+                        <Route key={route.to} path={route.path} element={<route.Component/>}></Route>
+                    ))
+                }
+                <Route path='/*' element={<Navigate to="/home" replace />}></Route>
+            </Routes>
+
+        </div>    
+    </BrowserRouter>
+  )
+}
+
+
+``` 
+
+## Clase:39. LazyLoad y Suspense
+
+**Forma de generar Lazy**
+- Paso 1: Para definir un `lazy` debemos importarlo `import {lazy} from 'react';`
+- Paso 2: Para incoporarlo debemos definilos: 
+```
+const Lazy1 = lazy(()=>import(/* webpackChunkName: "LazyPage1"*/'../../lazyload/pages/LazyPageone'));
+const Lazy2 = lazy(()=>import(/* webpackChunkName: "LazyPage2"*/'../../lazyload/pages/LazyPagetwo'));
+const Lazy3 = lazy(()=>import(/* webpackChunkName: "LazyPage3"*/'../../lazyload/pages/LazyPagetree'));
+``` 
+- Paso 3: Los `lazy` para usarlos debemos definir los export default 
+```
+import React from 'react'
+
+export const LazyPageone = () => {
+  return (
+    <h1>LazyPageone</h1>
+  )
+}
+
+export default LazyPageone;
+```
+- Paso 4: Debemos definir la firma 
+```
+type JSXComponent = () => JSX.Element; 
+
+/* Parecido a una Clase pero no es*/
+//Creamos un tipo 
+interface Route {
+    to:string;
+    path:string;
+    Component: LazyExoticComponent<JSXComponent> | JSXComponent;//Asi nombramos a los componentes
+    name:string;
+
+}
+```
+
+- Paso 5: Debemos crear un suspence 
+**Notas**
+- Se recomienda usar typescript 
+- Suspence es un componente que usamos para embolver todo un elemento -> Suspense le indica a react que si estoy cargando un modulo debemos esperar para cargar pero mientras lo estoy cargando haz lo siguiente. 
