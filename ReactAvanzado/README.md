@@ -492,7 +492,7 @@ export const LazyPageone = () => {
   )
 }
 
-export default LazyPageone;
+export default LazyPageone; //<--- Se refiere a esto 
 ```
 - Paso 4: Debemos definir la firma 
 ```
@@ -513,3 +513,39 @@ interface Route {
 **Notas**
 - Se recomienda usar typescript 
 - Suspence es un componente que usamos para embolver todo un elemento -> Suspense le indica a react que si estoy cargando un modulo debemos esperar para cargar pero mientras lo estoy cargando haz lo siguiente. 
+
+## Clase 40-45: 
+
+**Notas**
+- Forma de generar ruta con `react Routes v-6`
+- 
+
+```
+import { NavLink, Route, Routes, Navigate } from "react-router-dom";
+import {LazyPageone, LazyPagetwo, LazyPagetree} from '../../lazyload/pages';
+
+
+export const LazyLayout = ()=>{
+
+    return (
+
+        <div>
+            <h1>LazyLayout</h1>
+            <ul>
+                <li><NavLink to="lazy1">Lazy 1</NavLink></li>
+                <li><NavLink to="lazy2">Lazy 2</NavLink></li>    
+                <li><NavLink to="lazy3">Lazy 3</NavLink></li>
+            </ul>
+
+            <Routes>
+                <Route path="lazy1" element={<LazyPageone/>}></Route>
+                <Route path="lazy2" element={<LazyPagetwo/>}></Route>
+                <Route path="lazy3" element={<LazyPagetree/>}></Route>
+                <Route path="*" element={<Navigate replace to="lazy1"/>}></Route>
+            </Routes>
+        </div>
+    )
+}
+
+export default LazyLayout;
+```
