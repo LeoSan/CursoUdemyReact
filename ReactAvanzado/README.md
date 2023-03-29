@@ -503,7 +503,7 @@ type JSXComponent = () => JSX.Element;
 interface Route {
     to:string;
     path:string;
-    Component: LazyExoticComponent<JSXComponent> | JSXComponent;//Asi nombramos a los componentes
+    Component: Component:React.LazyExoticComponent<JSXComponent> | JSXComponent;//Asi nombramos a los componentes cuando usamos Lazy recuerda si muestra error debes importar -> import React from 'react'; al principio del archivo donde lo estes implementando 
     name:string;
 
 }
@@ -513,6 +513,22 @@ interface Route {
 **Notas**
 - Se recomienda usar typescript 
 - Suspence es un componente que usamos para embolver todo un elemento -> Suspense le indica a react que si estoy cargando un modulo debemos esperar para cargar pero mientras lo estoy cargando haz lo siguiente. 
+
+  - Paso 5.1: debemos importar el suspence -> `import {Suspense} from 'react';` en el archivo donde se usará para este caso en esl navigator.tsx 
+  - Paso 5.2: Luego suspence es un tipo de componente va envolver lo que deseas que espere, quedará asi referencia -> [ejemplo Real](./Proyectos/react-app/src/routes/Navigation.tsx)
+```
+//Ojo dentro del <Router> esta la estructura, solo lo coloco así para que se pueda entender el bloque y no quede tan extenso el código 
+export const Navigation = () => {
+  return (
+    <Suspense fallback={<span>Cargando... </span>}>
+      <Router>
+        .....
+      </Router>
+    </Suspense>
+  );
+}
+```
+
 
 ## Clase 40-45: 
 
@@ -549,3 +565,40 @@ export const LazyLayout = ()=>{
 
 export default LazyLayout;
 ```
+
+## Clase 46: Forma de mejorar la importación 
+
+- Paso 1: Debemos crar un index en la carpeta que tenemos nuestros componenetes 
+- Paso 2: vamos creando el export en ese index 
+```
+export { LazyPage1 } from './LazyPage1';
+export { LazyPage2 } from './LazyPage2';
+export { LazyPage3 } from './LazyPage3';
+
+```
+- Paso 3: lo incoporamos donde deseamos 
+`import { LazyPage1,LazyPage2,LazyPage3 } from '../01-lazyload/pages/index';`
+
+## Clase 47-48-49-50: Forma de mejorar la importación 
+
+**Comando**
+- Forma de crear un estilo `rafc`
+
+**Forma de generar un routes eficiente**
+```
+        <Switch>
+
+            {/*TODO: Crear  naclink dinamicos  */
+              routes.map(({path, Component}) =>( 
+                <Route 
+                    key={path} 
+                    path={path} 
+                    render={()=>{return <Component/>}}/>
+                
+            ))
+            }
+            <Redirect to={routes[0].path}/>                      
+        </Switch>
+```
+
+## Clase 51: Nested Lazy Routes
