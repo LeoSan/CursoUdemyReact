@@ -7,7 +7,7 @@ type JSXComponent = () => JSX.Element;
 
 interface Route {
     path:string;
-    Component:React.LazyExoticComponent<JSXComponent> | JSXComponent;//Asi nombramos a 
+    Component:React.LazyExoticComponent<JSXComponent> | JSXComponent;//Asi nombramos para poder manejar un  Componente tipo Lazy o un Componente normal 
     name:string,
     children?: Route[] //Con el simbolo de interrogación lo deja opcional 
 }

@@ -509,6 +509,9 @@ interface Route {
 }
 ```
 
+**Nota**
+- Recuerda que para que funcione el Lazy debes nombrarla `01-lazyload` aun estamos pollos pero recomiendo por el momento manejarlo así. 
+
 - Paso 5: Debemos crear un suspence 
 **Notas**
 - Se recomienda usar typescript 
@@ -601,4 +604,23 @@ export { LazyPage3 } from './LazyPage3';
         </Switch>
 ```
 
-## Clase 51: Nested Lazy Routes
+## Clase 51-52-53-54: Nested Lazy Routes
+
+- Podemos generar lazy por modulo para este ejemplo me fusilo el del profesor para no afectar mi desarrollo que sta 100% funcoonal 
+- Lo colocare como referencia en `react-adv-lazyload-nested` -> [Ejemplo Modular](../ReactAvanzado/Proyectos/react-adv-lazyload-nested/)
+- Codigo fuente completo sin compilar OJO. 
+
+
+## Sección 5: Sección 5: Patrones de componentes - Compound Component Pattern 
+## Clase 55-56: 
+
+**Nota**
+- Los patrones de diseño es la forma o un molde que podemos seguir para lograr crear software
+- **Conozco** -> MVC 
+- **Conozco** -> Redux (Estado) 
+- **Conozco** -> Abstract Factory -> es un diseño que proporciona una forma de crear familias de objetos relacionados sin imponer sus clases concretas, encapsulando un grupo de fábricas individuales que tienen un tema común sin especificar sus clases concretas. usado en JAVA para microservicios
+- **Conozco** -> Arquictectura Limpia -> Dominio, Aplicación, Presentación -> El proposito de este patron es que las dependencias, se organicen de forma que las capas centrales no sepan nada de las capas externas.
+- **Conozco** -> Un componente de orden superior (HOC) es un patrón de diseño en React que le permite reutilizar y compartir lógica entre componentes. Los HOC no son parte de la API de React, sino un patrón que surge de la naturaleza compositiva de React. -> Higher Order Component (HOC)
+
+> Patrones de Componentes -> Son patrones que nos daran beneficios para crear nuestros compoenentes 
+- **Estudiando** -> Compound Component Pattern -> Nos ayuda armar un componente y dentro de ese componente, añadir otros componenentes y tener un control al crearlos, IONIC 
