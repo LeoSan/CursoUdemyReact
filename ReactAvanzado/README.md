@@ -619,8 +619,79 @@ export { LazyPage3 } from './LazyPage3';
 - **Conozco** -> MVC 
 - **Conozco** -> Redux (Estado) 
 - **Conozco** -> Abstract Factory -> es un diseño que proporciona una forma de crear familias de objetos relacionados sin imponer sus clases concretas, encapsulando un grupo de fábricas individuales que tienen un tema común sin especificar sus clases concretas. usado en JAVA para microservicios
-- **Conozco** -> Arquictectura Limpia -> Dominio, Aplicación, Presentación -> El proposito de este patron es que las dependencias, se organicen de forma que las capas centrales no sepan nada de las capas externas.
+- **Conozco** -> Arquictectura Limpia -> Dominio, Aplicación, Presentación -> El proposito de este patron es que las dependencias, se organicen de forma que las capas centrales no sepan nada de las capas externas. Ejemplo las cebollas tienen tantas capas que las internas no saben de las capas externas 
 - **Conozco** -> Un componente de orden superior (HOC) es un patrón de diseño en React que le permite reutilizar y compartir lógica entre componentes. Los HOC no son parte de la API de React, sino un patrón que surge de la naturaleza compositiva de React. -> Higher Order Component (HOC)
 
 > Patrones de Componentes -> Son patrones que nos daran beneficios para crear nuestros compoenentes 
 - **Estudiando** -> Compound Component Pattern -> Nos ayuda armar un componente y dentro de ese componente, añadir otros componenentes y tener un control al crearlos, IONIC 
+
+## Clase 57-58-59: 
+
+**Recordar usar Hooks**
+```
+//Creamos 
+import { useState } from "react";
+
+export const useProduct = ()=>{
+
+    const [counter, setCounter] =useState(0);
+   
+    const increaseBy =(value:number)=>{
+        setCounter(prev => Math.max(prev+value, 0)); //Forma de sumar pero en una sola linea 
+    }
+    
+    return {
+        counter, 
+        increaseBy
+    }
+}
+
+//Implementamos donde queramos 
+export const ProductCard = () => {
+
+    //Declaro variables 
+    const {counter, increaseBy} =useProduct();
+```
+
+- Referencia [Ejemplo](../ReactAvanzado/Proyectos/react-adv-compound/src/02-component-patterns/components/ProductCard.tsx)
+
+## Clase 60: Forma tradicional Vs Forma Compound Component Pattern 
+
+**Forma Tradicional**
+```
+//forma Tradicional 
+
+import React from 'react'
+import { ProductCard } from '../components/ProductCard'
+
+//Definimos solo un objeto de varios productos 
+const product = {
+    id:'1',
+    title:'Coffee Mug- Card',
+    img:"./coffee-mug.png"
+}
+
+export const ShoppingPage = () => {
+  return (
+        <>
+            <div>
+                <h1>Shopping Store</h1>
+            </div>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+            }}>        
+            <ProductCard product={product}/>
+
+            </div>    
+        </>
+  )
+}
+
+```
+
+**Forma Usando patron de diseño**  
+```
+```
+
