@@ -492,7 +492,7 @@ export const LazyPageone = () => {
   )
 }
 
-export default LazyPageone;
+export default LazyPageone; //<--- Se refiere a esto 
 ```
 - Paso 4: Debemos definir la firma 
 ```
@@ -503,13 +503,195 @@ type JSXComponent = () => JSX.Element;
 interface Route {
     to:string;
     path:string;
-    Component: LazyExoticComponent<JSXComponent> | JSXComponent;//Asi nombramos a los componentes
+    Component: Component:React.LazyExoticComponent<JSXComponent> | JSXComponent;//Asi nombramos a los componentes cuando usamos Lazy recuerda si muestra error debes importar -> import React from 'react'; al principio del archivo donde lo estes implementando 
     name:string;
 
 }
 ```
 
+**Nota**
+- Recuerda que para que funcione el Lazy debes nombrarla `01-lazyload` aun estamos pollos pero recomiendo por el momento manejarlo así. 
+
 - Paso 5: Debemos crear un suspence 
 **Notas**
 - Se recomienda usar typescript 
 - Suspence es un componente que usamos para embolver todo un elemento -> Suspense le indica a react que si estoy cargando un modulo debemos esperar para cargar pero mientras lo estoy cargando haz lo siguiente. 
+
+  - Paso 5.1: debemos importar el suspence -> `import {Suspense} from 'react';` en el archivo donde se usará para este caso en esl navigator.tsx 
+  - Paso 5.2: Luego suspence es un tipo de componente va envolver lo que deseas que espere, quedará asi referencia -> [ejemplo Real](./Proyectos/react-app/src/routes/Navigation.tsx)
+```
+//Ojo dentro del <Router> esta la estructura, solo lo coloco así para que se pueda entender el bloque y no quede tan extenso el código 
+export const Navigation = () => {
+  return (
+    <Suspense fallback={<span>Cargando... </span>}>
+      <Router>
+        .....
+      </Router>
+    </Suspense>
+  );
+}
+```
+
+
+## Clase 40-45: 
+
+**Notas**
+- Forma de generar ruta con `react Routes v-6`
+- 
+
+```
+import { NavLink, Route, Routes, Navigate } from "react-router-dom";
+import {LazyPageone, LazyPagetwo, LazyPagetree} from '../../lazyload/pages';
+
+
+export const LazyLayout = ()=>{
+
+    return (
+
+        <div>
+            <h1>LazyLayout</h1>
+            <ul>
+                <li><NavLink to="lazy1">Lazy 1</NavLink></li>
+                <li><NavLink to="lazy2">Lazy 2</NavLink></li>    
+                <li><NavLink to="lazy3">Lazy 3</NavLink></li>
+            </ul>
+
+            <Routes>
+                <Route path="lazy1" element={<LazyPageone/>}></Route>
+                <Route path="lazy2" element={<LazyPagetwo/>}></Route>
+                <Route path="lazy3" element={<LazyPagetree/>}></Route>
+                <Route path="*" element={<Navigate replace to="lazy1"/>}></Route>
+            </Routes>
+        </div>
+    )
+}
+
+export default LazyLayout;
+```
+
+## Clase 46: Forma de mejorar la importación 
+
+- Paso 1: Debemos crar un index en la carpeta que tenemos nuestros componenetes 
+- Paso 2: vamos creando el export en ese index 
+```
+export { LazyPage1 } from './LazyPage1';
+export { LazyPage2 } from './LazyPage2';
+export { LazyPage3 } from './LazyPage3';
+
+```
+- Paso 3: lo incoporamos donde deseamos 
+`import { LazyPage1,LazyPage2,LazyPage3 } from '../01-lazyload/pages/index';`
+
+## Clase 47-48-49-50: Forma de mejorar la importación 
+
+**Comando**
+- Forma de crear un estilo `rafc`
+
+**Forma de generar un routes eficiente**
+```
+        <Switch>
+
+            {/*TODO: Crear  naclink dinamicos  */
+              routes.map(({path, Component}) =>( 
+                <Route 
+                    key={path} 
+                    path={path} 
+                    render={()=>{return <Component/>}}/>
+                
+            ))
+            }
+            <Redirect to={routes[0].path}/>                      
+        </Switch>
+```
+
+## Clase 51-52-53-54: Nested Lazy Routes
+
+- Podemos generar lazy por modulo para este ejemplo me fusilo el del profesor para no afectar mi desarrollo que sta 100% funcoonal 
+- Lo colocare como referencia en `react-adv-lazyload-nested` -> [Ejemplo Modular](../ReactAvanzado/Proyectos/react-adv-lazyload-nested/)
+- Codigo fuente completo sin compilar OJO. 
+
+
+## Sección 5: Sección 5: Patrones de componentes - Compound Component Pattern 
+## Clase 55-56: 
+
+**Nota**
+- Los patrones de diseño es la forma o un molde que podemos seguir para lograr crear software
+- **Conozco** -> MVC 
+- **Conozco** -> Redux (Estado) 
+- **Conozco** -> Abstract Factory -> es un diseño que proporciona una forma de crear familias de objetos relacionados sin imponer sus clases concretas, encapsulando un grupo de fábricas individuales que tienen un tema común sin especificar sus clases concretas. usado en JAVA para microservicios
+- **Conozco** -> Arquictectura Limpia -> Dominio, Aplicación, Presentación -> El proposito de este patron es que las dependencias, se organicen de forma que las capas centrales no sepan nada de las capas externas. Ejemplo las cebollas tienen tantas capas que las internas no saben de las capas externas 
+- **Conozco** -> Un componente de orden superior (HOC) es un patrón de diseño en React que le permite reutilizar y compartir lógica entre componentes. Los HOC no son parte de la API de React, sino un patrón que surge de la naturaleza compositiva de React. -> Higher Order Component (HOC)
+
+> Patrones de Componentes -> Son patrones que nos daran beneficios para crear nuestros compoenentes 
+- **Estudiando** -> Compound Component Pattern -> Nos ayuda armar un componente y dentro de ese componente, añadir otros componenentes y tener un control al crearlos, IONIC 
+
+## Clase 57-58-59: 
+
+**Recordar usar Hooks**
+```
+//Creamos 
+import { useState } from "react";
+
+export const useProduct = ()=>{
+
+    const [counter, setCounter] =useState(0);
+   
+    const increaseBy =(value:number)=>{
+        setCounter(prev => Math.max(prev+value, 0)); //Forma de sumar pero en una sola linea 
+    }
+    
+    return {
+        counter, 
+        increaseBy
+    }
+}
+
+//Implementamos donde queramos 
+export const ProductCard = () => {
+
+    //Declaro variables 
+    const {counter, increaseBy} =useProduct();
+```
+
+- Referencia [Ejemplo](../ReactAvanzado/Proyectos/react-adv-compound/src/02-component-patterns/components/ProductCard.tsx)
+
+## Clase 60: Forma tradicional Vs Forma Compound Component Pattern 
+
+**Forma Tradicional**
+```
+//forma Tradicional 
+
+import React from 'react'
+import { ProductCard } from '../components/ProductCard'
+
+//Definimos solo un objeto de varios productos 
+const product = {
+    id:'1',
+    title:'Coffee Mug- Card',
+    img:"./coffee-mug.png"
+}
+
+export const ShoppingPage = () => {
+  return (
+        <>
+            <div>
+                <h1>Shopping Store</h1>
+            </div>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+            }}>        
+            <ProductCard product={product}/>
+
+            </div>    
+        </>
+  )
+}
+
+```
+
+**Forma Usando patron de diseño**  
+```
+```
+
