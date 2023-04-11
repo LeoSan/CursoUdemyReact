@@ -655,7 +655,7 @@ export const ProductCard = () => {
 
 - Referencia [Ejemplo](../ReactAvanzado/Proyectos/react-adv-compound/src/02-component-patterns/components/ProductCard.tsx)
 
-## Clase 60: Forma tradicional Vs Forma Compound Component Pattern 
+## Clase 60: Forma tradicional Vs Compound Component Pattern (Patrón de componentes compuestos)
 
 **Forma Tradicional**
 ```
@@ -691,7 +691,202 @@ export const ShoppingPage = () => {
 
 ```
 
-**Forma Usando patron de diseño**  
+**Patron componente compuesto -> Compound Component Pattern**  
 ```
+//Paso 1: 
+
+//Importo librerias 
+import styles from '../styles/styles.module.css';
+import notImage from "../assets/no-image.jpg";
+import  {useProduct}  from '../hooks/useProduct';
+
+//Creamos nuestras props 
+interface Props { //Esta interfaz es de mayor gerarquia 
+  product:Product
+}
+
+//Creamos un ainterfaz para definir el objeto 
+interface Product {
+  id:string,
+  title:string,
+  img?:string//Hace que sea opcional
+}
+
+export const ProductImage =({img = ''})=>{
+  return (<img className={styles.productImg} src={img ? img: notImage } alt="Product" />)
+}
+
+export const ProductTitle =({title}:{title:string})=>{//Solos e hace esto cuando es solo una propiedad si no pues debemos aplicar lo de una interfaz
+  return (<span className={styles.productDescription}>title</span>)
+}
+
+interface ProductButtonsProps {
+  increaseBy:(value:number)=>void; //forma de declarar un metodo 
+  counter:number;
+}
+
+export const ProductBottons =({increaseBy,counter}:ProductButtonsProps)=>{
+  return (        
+  <div className={styles.buttonsContainer}>
+    <button className={styles.buttonMinus} onClick={()=>increaseBy(-1)}>-</button>
+    <div className={styles.countLabel}>{counter}</div>
+    <button className={styles.buttonAdd} onClick={()=>increaseBy(+1)}>+</button>
+</div>)
+}
+
+
+
+export const ProductCard = ({product }:Props) => {
+
+    //Declaro variables 
+    const {counter, increaseBy} =useProduct();
+
+  return (
+    <div className={styles.productCard}>
+        
+        <ProductImage img={product.img}/>
+
+        <ProductTitle title={product.title}/>
+        
+        <ProductBottons 
+          increaseBy={increaseBy} 
+          counter={counter} 
+          />
+
+    </div>
+  )
+}
+
+//Paso 2
+
+//Importo librerias 
+import styles from '../styles/styles.module.css';
+import notImage from "../assets/no-image.jpg";
+import  {useProduct}  from '../hooks/useProduct';
+import { ReactElement, createContext, useContext} from 'react';
+
+//Creamos nuestras props 
+interface Props { //Esta interfaz es de mayor gerarquia 
+  product:Product;
+  //children?:()=>JSX.Element //El ? hace que sea opcional , forma de pasar los hijos 
+  children?: ReactElement | ReactElement[] 
+}
+
+//Creamos un ainterfaz para definir el objeto 
+interface Product {
+  id:string,
+  title:string,
+  img?:string//Hace que sea opcional
+}
+
+//Definimos nuestro contexto 
+
+interface PructContextProps {
+  counter:number;
+  increaseBy:(value:number)=>void; //forma de declarar un metodo 
+  product:Product
+}
+const ProductContext = createContext({} as PructContextProps);
+const {Provider} =  ProductContext; 
+
+
+export const ProductImage =({img = ''})=>{
+  
+  const {product} = useContext(ProductContext)
+  let imgToShow:string;
+  if (img){
+    imgToShow=img
+  }else if(product.img){
+    imgToShow=product.img
+  }else{
+    imgToShow = notImage
+  }
+  return (<img className={styles.productImg} src={imgToShow } alt="Product" />)
+}
+
+export const ProductTitle =({title}:{title?:string})=>{//Solos e hace esto cuando es solo una propiedad si no pues debemos aplicar lo de una interfaz
+  
+  const {product} = useContext(ProductContext)
+  let titleToShow:string;
+  if (title){
+    titleToShow=title
+  }else if(product.title){
+    titleToShow=product.title
+  }else{
+    titleToShow = 'sin titulo'
+  }  
+  
+  return (<span className={styles.productDescription}>{titleToShow}</span>)
+}
+
+export const ProductBottons =()=>{
+  
+  const {increaseBy,counter} = useContext(ProductContext);
+  
+    return (        
+  <div className={styles.buttonsContainer}>
+    <button className={styles.buttonMinus} onClick={()=>increaseBy(-1)}>-</button>
+    <div className={styles.countLabel}>{counter}</div>
+    <button className={styles.buttonAdd} onClick={()=>increaseBy(+1)}>+</button>
+</div>)
+}
+
+
+
+export const ProductCard = ({children, product }:Props) => {
+
+    //Declaro variables 
+    const {counter, increaseBy} = useProduct();
+
+  return (
+    <Provider value={{
+      counter,
+      increaseBy,
+      product
+    }}>
+      <div className={styles.productCard}>
+          {children}
+      </div>
+    </Provider>    
+  )
+}
+
+
+
+import React from 'react'
+import { ProductCard, ProductImage, ProductTitle, ProductBottons } from '../components/ProductCard'
+
+//Definimos solo un objeto de varios productos 
+const product = {
+    id:'1',
+    title:'Coffee Mug- Card',
+    img:"./coffee-mug.png"
+}
+
+export const ShoppingPage = () => {
+  return (
+        <>
+            <div>
+                <h1>Shopping Store</h1>
+            </div>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+            }}>        
+            <ProductCard product={product}>
+                <ProductImage/>
+                <ProductTitle/>
+                <ProductBottons/>
+            </ProductCard>
+
+
+            </div>    
+        </>
+  )
+}
+
+
+
 ```
 

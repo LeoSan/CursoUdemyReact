@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProductCard } from '../components/ProductCard'
+import { ProductCard, ProductImage, ProductTitle, ProductBottons } from '../components/'
 
 //Definimos solo un objeto de varios productos 
 const product = {
@@ -19,8 +19,11 @@ export const ShoppingPage = () => {
                 flexDirection: 'row',
                 flexWrap: 'wrap'
             }}>        
-            <ProductCard product={product}/>
-
+            <ProductCard product={product}>
+                <ProductImage/>
+                <ProductTitle/>
+                <ProductBottons/>
+            </ProductCard>
             </div>    
         </>
   )

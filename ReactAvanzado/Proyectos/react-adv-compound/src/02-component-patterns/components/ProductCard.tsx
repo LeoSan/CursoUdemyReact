@@ -1,37 +1,30 @@
 //Importo librerias 
 import styles from '../styles/styles.module.css';
-import notImage from "../assets/no-image.jpg";
-import  {useProduct}  from '../hooks/useProduct';
+import {useProduct}  from '../hooks/useProduct';
+import { createContext, useContext} from 'react';
 
-//Creamos nuestras props 
-interface Props { //Esta interfaz es de mayor gerarquia 
-  product:Product
-}
-
-//Creamos un ainterfaz para definir el objeto 
-interface Product {
-  id:string,
-  title:string,
-  img?:string
-}
+//Importamos interfaces
+import {PructContextProps, ProductCardProps} from '../interfaces/interfaces';
 
 
-export const ProductCard = ({product }:Props) => {
+export const ProductContext = createContext({} as PructContextProps );
+const {Provider} =  ProductContext; 
+
+
+export const ProductCard = ({children, product }:ProductCardProps) => {
 
     //Declaro variables 
-    const {counter, increaseBy} =useProduct();
+    const {counter, increaseBy} = useProduct();
 
   return (
-    <div className={styles.productCard}>
-        
-        <img className={styles.productImg} src={product.img ? product.img: notImage } alt="not-coffee" />
-
-        <span className={styles.productDescription}> product.title</span>
-        <div className={styles.buttonsContainer}>
-            <button className={styles.buttonMinus} onClick={()=>increaseBy(-1)}>-</button>
-            <div className={styles.countLabel}>{counter}</div>
-            <button className={styles.buttonAdd} onClick={()=>increaseBy(+1)}>+</button>
-        </div>
-    </div>
+    <Provider value={{
+      counter,
+      increaseBy,
+      product
+    }}>
+      <div className={styles.productCard}>
+          {children}
+      </div>
+    </Provider>    
   )
 }
