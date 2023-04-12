@@ -657,6 +657,13 @@ export const ProductCard = () => {
 
 ## Clase 60: Forma tradicional Vs Compound Component Pattern (Patrón de componentes compuestos)
 
+**Ventajas**
+- Permite crear componentes de manera dinámica 
+
+**Desventajas**
+- No permite heredar estilos ya que se definen pero no llegan 
+- Por ser dinamico cuesta un poco implementar los estilos 
+
 **Forma Tradicional**
 ```
 //forma Tradicional 
@@ -885,8 +892,9 @@ export const ShoppingPage = () => {
         </>
   )
 }
-
-
-
 ```
 
+# Sección 6: Patrones de componentes - Extensible Styles
+> En esta sección aprenderemos a extender la funcionalidad de nuestro componente añadiendo la posibilidad de interpretar clases de CSS y/o estilos en línea (inline styles)
+
+## Clase 70: 
