@@ -897,4 +897,78 @@ export const ShoppingPage = () => {
 # Sección 6: Patrones de componentes - Extensible Styles
 > En esta sección aprenderemos a extender la funcionalidad de nuestro componente añadiendo la posibilidad de interpretar clases de CSS y/o estilos en línea (inline styles)
 
-## Clase 70: 
+## Clase 70: Extensible Styles
+
+> Este patron de diseño permite enviarle o heredarle estilo de clases a sus componentes pre fabricados.  
+
+**Pasos**
+- Paso 1: Debemos definir nuestros estilos, nuestra carérta styles-> `custom-styles.css`
+- Paso 2: Recuerda que este metodo se enviar por props, ciertos paramentros lo que se recomienda es ajustar las interface o crear interface por cada componente creado Ej
+```
+  //Definimos interfaz para el componente titulo 
+  export interface PructCardTitle {
+    className?:string;
+    title?:string;
+  }  
+  
+//Definimos interfaz para el componente image 
+  export interface PructCardImage {
+    className?:string;
+    img?:string;
+  }
+  
+  //Definimos interfaz para el componente image 
+  export interface PructCardButtons {
+    className?:string;
+  }
+```
+- Paso 3: Recuerda que existe una interface pricipal que permite heredar a los hijos `children` solo aqui en esa interface donde va el children debemos decirle que permita recibir `className` Ejem
+```
+//Creamos nuestras props Esto es la clave para que funcione el patron de diseño 
+export interface ProductCardProps { //Esta interfaz es de mayor gerarquia 
+    product:    Product;
+    children?:  ReactElement | ReactElement[];
+    className?: string;//>Aqui la clave del exito
+  }
+
+```
+- Paso 4: Luego de generar las interfaces vamos al props de cada componente y mathing con las interfaces adecuadas eso permite recibir `className` y podelos usarlas en nuestro componente Ej
+```
+//Importamos interfaces
+import {PructCardImage} from '../interfaces/interfaces';
+
+export const ProductImage =({img, className}:PructCardImage)=>{
+```
+ > debe ver que aqui importamos la interfacess y mathing para que quede con la definición 
+- Paso 5: ya que recibimos `className` podremos usarlo en donde deseamos aqui un gran detalle debemos usar bath tips `${}` para poder usarlo en el verdadero `className` Ejemplo 
+```
+return (<img className={ `${styles.productImg} ${className}`} src={imgToShow } alt="Product" />)
+```
+Guia -> [Guia del compoenente Title]('Proyectos\react-adv-compound-extensible-style\src\02-component-patterns\components\ProductTitle.tsx')
+
+- Paso 6: ya para finalizar pasamos las `clasName` previamente definidas en nuestra hoja de estilo, ejemplo 
+```
+export const ShoppingPage = () => {
+  return (
+        <>
+            <div >
+                <h1>Shopping Store</h1>
+            </div>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+            }}>        
+            <ProductCard 
+                product={product} 
+                className='bg-dark text-white'
+             >
+                <ProductImage className='custom-image'/>
+                <ProductTitle className='text-white'/>
+                <ProductBottons className='custom-image'/>
+            </ProductCard>
+            </div>    
+        </>
+  )
+}
+```
