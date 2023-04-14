@@ -657,12 +657,90 @@ export const ProductCard = () => {
 
 ## Clase 60: Forma tradicional Vs Compound Component Pattern (Patrón de componentes compuestos)
 
+
+> El patrón de "Compound Component" es una técnica utilizada en React para construir componentes complejos que se componen de varios subcomponentes. En este patrón, el componente principal es responsable de coordinar y controlar el comportamiento de los subcomponentes.
+
 **Ventajas**
 - Permite crear componentes de manera dinámica 
+- La idea detrás de este patrón es proporcionar una interfaz limpia y clara para los desarrolladores que utilizan el componente
+- Cada subcomponente en el grupo tiene su propio conjunto de props y estado, pero juntos, funcionan como un solo componente.
+
+
 
 **Desventajas**
 - No permite heredar estilos ya que se definen pero no llegan 
 - Por ser dinamico cuesta un poco implementar los estilos 
+
+**Ejemplo**
+> Un ejemplo común de un componente de "Compound Component" es un componente de pestañas. Este componente consiste en un componente principal de pestañas y varios subcomponentes de paneles que muestran el contenido correspondiente a cada pestaña. En este caso, el componente de pestañas es responsable de coordinar el comportamiento de los subcomponentes de paneles.
+
+```
+// componente principal de pestañas
+class Tabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTabIndex: 0
+    };
+  }
+
+  handleTabClick(tabIndex) {
+    this.setState({ activeTabIndex: tabIndex });
+  }
+
+  render() {
+    const children = React.Children.map(this.props.children, (child, index) => {
+      if (child.type.displayName === "TabPanel") {
+        return React.cloneElement(child, {
+          active: this.state.activeTabIndex === index
+        });
+      }
+      return child;
+    });
+
+    return <div>{children}</div>;
+  }
+}
+
+// componente de pestaña individual
+class Tab extends React.Component {
+  render() {
+    return (
+      <button onClick={this.props.onClick}>
+        {this.props.children}
+      </button>
+    );
+  }
+}
+
+// componente de panel de pestaña individual
+class TabPanel extends React.Component {
+  render() {
+    return (
+      <div style={{ display: this.props.active ? "block" : "none" }}>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+TabPanel.displayName = "TabPanel";
+
+// uso del componente Tabs
+function App() {
+  return (
+    <Tabs>
+      <Tab onClick={() => console.log("tab1 clicked")}>Tab 1</Tab>
+      <Tab onClick={() => console.log("tab2 clicked")}>Tab 2</Tab>
+      <Tab onClick={() => console.log("tab3 clicked")}>Tab 3</Tab>
+      <TabPanel>Panel 1</TabPanel>
+      <TabPanel>Panel 2</TabPanel>
+      <TabPanel>Panel 3</TabPanel>
+    </Tabs>
+  );
+}
+```
+
 
 **Forma Tradicional**
 ```
@@ -944,7 +1022,7 @@ export const ProductImage =({img, className}:PructCardImage)=>{
 ```
 return (<img className={ `${styles.productImg} ${className}`} src={imgToShow } alt="Product" />)
 ```
-Guia -> [Guia del compoenente Title]('Proyectos\react-adv-compound-extensible-style\src\02-component-patterns\components\ProductTitle.tsx')
+Guia -> [Guia del componente Title]('Proyectos\react-adv-compound-extensible-style\src\02-component-patterns\components\ProductTitle.tsx')
 
 - Paso 6: ya para finalizar pasamos las `clasName` previamente definidas en nuestra hoja de estilo, ejemplo 
 ```
@@ -970,5 +1048,52 @@ export const ShoppingPage = () => {
             </div>    
         </>
   )
+}
+```
+
+
+# Sección 7: Sección 7: Patrones de componentes - Control Props
+
+> El patrón de "Control Props" es una técnica que se utiliza en React para combinar el estado interno del componente con las props que se pasan desde sus padres. En lugar de que el componente mantenga su propio estado interno, el estado se administra en el padre y se pasa al componente hijo como una prop.
+
+**Ventajas**
+> De esta manera, el componente hijo sigue siendo un componente controlado por su padre, pero el padre también tiene la capacidad de controlar el estado del componente. Esto puede ser útil cuando se desea que el padre tenga un mayor control sobre el componente hijo, o cuando se desea compartir datos entre varios componentes.
+
+
+**Ejemplo**
+```
+// componente hijo
+function Input(props) {
+  return (
+    <input 
+      type="text"
+      value={props.value} 
+      onChange={props.onChange} 
+    />
+  );
+}
+
+// componente padre
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: ""
+    };
+    this.handleNameChange = this.handleNameChange.bind(this);
+  }
+
+  handleNameChange(event) {
+    this.setState({name: event.target.value});
+  }
+
+  render() {
+    return (
+      <div>
+        <Input value={this.state.name} onChange={this.handleNameChange} />
+        <p>El nombre ingresado es: {this.state.name}</p>
+      </div>
+    );
+  }
 }
 ```
