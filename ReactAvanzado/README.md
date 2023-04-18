@@ -1054,6 +1054,7 @@ export const ShoppingPage = () => {
 
 # Sección 7: Sección 7: Patrones de componentes - Control Props
 
+## Clase: 79 - 82
 > El patrón de "Control Props" es una técnica que se utiliza en React para combinar el estado interno del componente con las props que se pasan desde sus padres. En lugar de que el componente mantenga su propio estado interno, el estado se administra en el padre y se pasa al componente hijo como una prop.
 
 **Ventajas**
@@ -1097,3 +1098,8 @@ class App extends React.Component {
   }
 }
 ```
+
+## Clase: 83: 
+> Esto es una forma de especificar useState que permita solo un formato TypeScript 
+
+`const [shopingcart, setShopingcart] = useState<{[key:string]:PructInCar}>({});`
