@@ -1099,7 +1099,23 @@ class App extends React.Component {
 }
 ```
 
-## Clase: 83: 
+## Clase: 83-85: 
 > Esto es una forma de especificar useState que permita solo un formato TypeScript 
 
 `const [shopingcart, setShopingcart] = useState<{[key:string]:PructInCar}>({});`
+
+## Clase 86: Cosas que no 
+
+## Esto no se hace si vamos a cambiar un estado debemos usar su modificador set
+`shopingcart[product.id]={...product, count}` 
+
+
+## Forma de imprimir en pantalla tus valores 
+
+```
+<div>
+<code>
+{JSON.stringify(shopingcart, null, 5)}
+</code>
+</div>
+```

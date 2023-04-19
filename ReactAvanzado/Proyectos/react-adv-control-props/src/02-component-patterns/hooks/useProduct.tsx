@@ -1,13 +1,24 @@
 import { useState } from "react";
+//Importamos interfaces
+import { Product, onChangeArgs } from '../interfaces/interfaces';
 
-export const useProduct = ( onChange?:()=>void )=>{
+
+interface useProductArgs {
+    product: Product;
+    onChange?:(args:onChangeArgs) =>void; //forma declarar metodo
+
+}
+
+export const useProduct = ( {onChange, product}: useProductArgs )=>{
 
     const [counter, setCounter] = useState(0);
    
     const increaseBy =(value:number)=>{
-        setCounter(prev => Math.max(prev+value, 0)); //Forma de sumar pero en una sola linea 
+        const newValue = Math.max(counter + value, 0)
+
+        setCounter( newValue );
     
-        onChange && onChange();//Forma elegante de hacer un condicional if(onChange){}
+        onChange && onChange({ count:newValue, product });//Forma elegante de hacer un condicional if(onChange){}
     }
     
     return {

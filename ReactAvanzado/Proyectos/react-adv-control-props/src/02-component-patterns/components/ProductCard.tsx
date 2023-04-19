@@ -14,7 +14,7 @@ const {Provider} =  ProductContext;
 export const ProductCard = ({children, product, className, style, onChange }:ProductCardProps) => {
 
     //Declaro variables 
-    const {counter, increaseBy} = useProduct(onChange);
+    const {counter, increaseBy} = useProduct({ onChange, product});
 
   return (
     //Esto lo hacemos apra que sus hijos por medio del provider puedan llegar dichos datos
