@@ -1119,3 +1119,9 @@ class App extends React.Component {
 </code>
 </div>
 ```
+
+## Clase 90: !! Niega y afirma 
+
+- `const isControlled = useRef(!!onChange);`//!! Esta madre indica que si es false te enviar true como resultado positivo 
+- `return onChange!({count:value, product})`//El signo de admiracion es indicativo a typeScript que "Oye confia en mi se que hay un error pero ya lo estoy validando" recuerda typeScript siempre le preocupará que una función o un valor sea undefined ya que esto rompe el sistema
+- `if (isControlled.current && onChange ){`//El signo de && es indicativo a typeScript que que evalue ambas sean ciertas 

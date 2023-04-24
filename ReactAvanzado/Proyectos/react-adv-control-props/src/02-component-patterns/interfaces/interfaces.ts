@@ -10,6 +10,7 @@ export interface ProductCardProps { //Esta interfaz es de mayor gerarquia
     style?: React.CSSProperties; //Esto permite usar estilos dentro de tu componente  
     //children?:()=>JSX.Element //El ? hace que sea opcional , forma de pasar los hijos 
     onChange?:(args:onChangeArgs)=>void; //forma de declarar un metodo 
+    value?:number;
   }
   
   //Creamos una interfaz para definir el objeto 

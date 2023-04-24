@@ -4,6 +4,7 @@ import '../styles/styles.module.css';
 import {Product, PructInCar} from '../interfaces/interfaces';
 
 import '../styles/styles.module.css';
+import { useShoppingPageCart } from '../hooks/useShoppingPageCart';
 
 //Definimos solo un objeto de varios productos 
 const product1 = {
@@ -17,29 +18,42 @@ const product2 = {
     img:"./coffee-mug2.png"
 }
 
-const product:Product[] = [product1, product2];
-
-console.log("product->", product)
-
-
-
 export const ShoppingPage = () => {
 
+    const {shopingcart,  onProductCountChange} = useShoppingPageCart();
+    /* 
     const [shopingcart, setShopingcart] = useState<{[key:string]:PructInCar}>({});//Forma de definir un objeto en staje con apoyo de los <[key:string]:interface>
     
     const onProductCountChange =({count, product}:{count:number, product:Product})=>{
         setShopingcart(oldShopingCart =>{
             
-            if (count == 0 ){
-                const { [product.id]:toDelete, ...rest} = oldShopingCart;//Forma de eliminar
-                return (rest)
-            }   
+        //Solución usando Control Promps
+        const producInCart:PructInCar = oldShopingCart[product.id] || {...product, count:0}
+        if (Math.max(producInCart.count + count, 0)){
+            producInCart.count +=count;
             return {
-                    ...oldShopingCart,
-                    [product.id]:{...product, count}
-                }
+                ...oldShopingCart,
+                [product.id]:producInCart
+            }
+        }
+
+        //Borramos producto
+        const { [product.id]:toDelete, ...rest} = oldShopingCart;//Forma de eliminar
+        return (rest)
+
+        //Solución vieja 
+        //   if (count === 0 ){
+        //        const { [product.id]:toDelete, ...rest} = oldShopingCart;//Forma de eliminar
+        //        return (rest)
+        //    }   
+        //    return {
+        //            ...oldShopingCart,
+        //            [product.id]:{...product, count}
+        //        }
+        
+
         }); 
-    }
+    }*/
 
   return (
         <>
@@ -57,6 +71,7 @@ export const ShoppingPage = () => {
                         className='bg-dark text-white'
                         style={{backgroundColor:'#70D1F8'}}
                         onChange={onProductCountChange}
+                        value={shopingcart[product2.id]?.count || 0}
                     >
                     <ProductImage className='custom-image'/>
                     <ProductTitle className='text-white'/>
@@ -69,6 +84,7 @@ export const ShoppingPage = () => {
                         className='bg-dark text-white'
                         style={{backgroundColor:'#70D1F8'}}
                         onChange={onProductCountChange}
+                        value={shopingcart[product1.id]?.count || 0}
                     >
                     <ProductImage className='custom-image'/>
                     <ProductTitle className='text-white'/>
@@ -89,6 +105,8 @@ export const ShoppingPage = () => {
                             product={productInCart} 
                             className='bg-dark text-white'
                             style={{width:'100px'}}
+                            value={productInCart.count}
+                            onChange={onProductCountChange}
                         >
                         <ProductImage className='custom-image'/>
                         <ProductBottons 

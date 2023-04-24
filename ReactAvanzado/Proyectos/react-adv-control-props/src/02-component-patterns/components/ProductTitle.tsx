@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import styles from '../styles/styles.module.css';
-import notImage from "../assets/no-image.jpg";
 import { ProductContext } from './ProductCard';
 
 
