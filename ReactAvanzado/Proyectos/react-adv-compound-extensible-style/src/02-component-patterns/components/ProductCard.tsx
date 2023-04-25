@@ -11,18 +11,21 @@ export const ProductContext = createContext({} as PructContextProps );
 const {Provider} =  ProductContext; 
 
 
-export const ProductCard = ({children, product }:ProductCardProps) => {
+export const ProductCard = ({children, product, className, style }:ProductCardProps) => {
 
     //Declaro variables 
     const {counter, increaseBy} = useProduct();
 
   return (
+    //Esto lo hacemos apra que sus hijos por medio del provider puedan llegar dichos datos
     <Provider value={{
       counter,
       increaseBy,
       product
     }}>
-      <div className={styles.productCard}>
+      <div className={ `${styles.productCard} ${className}` }
+          style={style}
+      >
           {children}
       </div>
     </Provider>    

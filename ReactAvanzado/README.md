@@ -655,7 +655,92 @@ export const ProductCard = () => {
 
 - Referencia [Ejemplo](../ReactAvanzado/Proyectos/react-adv-compound/src/02-component-patterns/components/ProductCard.tsx)
 
-## Clase 60: Forma tradicional Vs Forma Compound Component Pattern 
+## Clase 60: Forma tradicional Vs Compound Component Pattern (Patrón de componentes compuestos)
+
+
+> El patrón de "Compound Component" es una técnica utilizada en React para construir componentes complejos que se componen de varios subcomponentes. En este patrón, el componente principal es responsable de coordinar y controlar el comportamiento de los subcomponentes.
+
+**Ventajas**
+- Permite crear componentes de manera dinámica 
+- La idea detrás de este patrón es proporcionar una interfaz limpia y clara para los desarrolladores que utilizan el componente
+- Cada subcomponente en el grupo tiene su propio conjunto de props y estado, pero juntos, funcionan como un solo componente.
+
+
+
+**Desventajas**
+- No permite heredar estilos ya que se definen pero no llegan 
+- Por ser dinamico cuesta un poco implementar los estilos 
+
+**Ejemplo**
+> Un ejemplo común de un componente de "Compound Component" es un componente de pestañas. Este componente consiste en un componente principal de pestañas y varios subcomponentes de paneles que muestran el contenido correspondiente a cada pestaña. En este caso, el componente de pestañas es responsable de coordinar el comportamiento de los subcomponentes de paneles.
+
+```
+// componente principal de pestañas
+class Tabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTabIndex: 0
+    };
+  }
+
+  handleTabClick(tabIndex) {
+    this.setState({ activeTabIndex: tabIndex });
+  }
+
+  render() {
+    const children = React.Children.map(this.props.children, (child, index) => {
+      if (child.type.displayName === "TabPanel") {
+        return React.cloneElement(child, {
+          active: this.state.activeTabIndex === index
+        });
+      }
+      return child;
+    });
+
+    return <div>{children}</div>;
+  }
+}
+
+// componente de pestaña individual
+class Tab extends React.Component {
+  render() {
+    return (
+      <button onClick={this.props.onClick}>
+        {this.props.children}
+      </button>
+    );
+  }
+}
+
+// componente de panel de pestaña individual
+class TabPanel extends React.Component {
+  render() {
+    return (
+      <div style={{ display: this.props.active ? "block" : "none" }}>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+TabPanel.displayName = "TabPanel";
+
+// uso del componente Tabs
+function App() {
+  return (
+    <Tabs>
+      <Tab onClick={() => console.log("tab1 clicked")}>Tab 1</Tab>
+      <Tab onClick={() => console.log("tab2 clicked")}>Tab 2</Tab>
+      <Tab onClick={() => console.log("tab3 clicked")}>Tab 3</Tab>
+      <TabPanel>Panel 1</TabPanel>
+      <TabPanel>Panel 2</TabPanel>
+      <TabPanel>Panel 3</TabPanel>
+    </Tabs>
+  );
+}
+```
+
 
 **Forma Tradicional**
 ```
@@ -691,7 +776,352 @@ export const ShoppingPage = () => {
 
 ```
 
-**Forma Usando patron de diseño**  
+**Patron componente compuesto -> Compound Component Pattern**  
 ```
+//Paso 1: 
+
+//Importo librerias 
+import styles from '../styles/styles.module.css';
+import notImage from "../assets/no-image.jpg";
+import  {useProduct}  from '../hooks/useProduct';
+
+//Creamos nuestras props 
+interface Props { //Esta interfaz es de mayor gerarquia 
+  product:Product
+}
+
+//Creamos un ainterfaz para definir el objeto 
+interface Product {
+  id:string,
+  title:string,
+  img?:string//Hace que sea opcional
+}
+
+export const ProductImage =({img = ''})=>{
+  return (<img className={styles.productImg} src={img ? img: notImage } alt="Product" />)
+}
+
+export const ProductTitle =({title}:{title:string})=>{//Solos e hace esto cuando es solo una propiedad si no pues debemos aplicar lo de una interfaz
+  return (<span className={styles.productDescription}>title</span>)
+}
+
+interface ProductButtonsProps {
+  increaseBy:(value:number)=>void; //forma de declarar un metodo 
+  counter:number;
+}
+
+export const ProductBottons =({increaseBy,counter}:ProductButtonsProps)=>{
+  return (        
+  <div className={styles.buttonsContainer}>
+    <button className={styles.buttonMinus} onClick={()=>increaseBy(-1)}>-</button>
+    <div className={styles.countLabel}>{counter}</div>
+    <button className={styles.buttonAdd} onClick={()=>increaseBy(+1)}>+</button>
+</div>)
+}
+
+
+
+export const ProductCard = ({product }:Props) => {
+
+    //Declaro variables 
+    const {counter, increaseBy} =useProduct();
+
+  return (
+    <div className={styles.productCard}>
+        
+        <ProductImage img={product.img}/>
+
+        <ProductTitle title={product.title}/>
+        
+        <ProductBottons 
+          increaseBy={increaseBy} 
+          counter={counter} 
+          />
+
+    </div>
+  )
+}
+
+//Paso 2
+
+//Importo librerias 
+import styles from '../styles/styles.module.css';
+import notImage from "../assets/no-image.jpg";
+import  {useProduct}  from '../hooks/useProduct';
+import { ReactElement, createContext, useContext} from 'react';
+
+//Creamos nuestras props 
+interface Props { //Esta interfaz es de mayor gerarquia 
+  product:Product;
+  //children?:()=>JSX.Element //El ? hace que sea opcional , forma de pasar los hijos 
+  children?: ReactElement | ReactElement[] 
+}
+
+//Creamos un ainterfaz para definir el objeto 
+interface Product {
+  id:string,
+  title:string,
+  img?:string//Hace que sea opcional
+}
+
+//Definimos nuestro contexto 
+
+interface PructContextProps {
+  counter:number;
+  increaseBy:(value:number)=>void; //forma de declarar un metodo 
+  product:Product
+}
+const ProductContext = createContext({} as PructContextProps);
+const {Provider} =  ProductContext; 
+
+
+export const ProductImage =({img = ''})=>{
+  
+  const {product} = useContext(ProductContext)
+  let imgToShow:string;
+  if (img){
+    imgToShow=img
+  }else if(product.img){
+    imgToShow=product.img
+  }else{
+    imgToShow = notImage
+  }
+  return (<img className={styles.productImg} src={imgToShow } alt="Product" />)
+}
+
+export const ProductTitle =({title}:{title?:string})=>{//Solos e hace esto cuando es solo una propiedad si no pues debemos aplicar lo de una interfaz
+  
+  const {product} = useContext(ProductContext)
+  let titleToShow:string;
+  if (title){
+    titleToShow=title
+  }else if(product.title){
+    titleToShow=product.title
+  }else{
+    titleToShow = 'sin titulo'
+  }  
+  
+  return (<span className={styles.productDescription}>{titleToShow}</span>)
+}
+
+export const ProductBottons =()=>{
+  
+  const {increaseBy,counter} = useContext(ProductContext);
+  
+    return (        
+  <div className={styles.buttonsContainer}>
+    <button className={styles.buttonMinus} onClick={()=>increaseBy(-1)}>-</button>
+    <div className={styles.countLabel}>{counter}</div>
+    <button className={styles.buttonAdd} onClick={()=>increaseBy(+1)}>+</button>
+</div>)
+}
+
+
+
+export const ProductCard = ({children, product }:Props) => {
+
+    //Declaro variables 
+    const {counter, increaseBy} = useProduct();
+
+  return (
+    <Provider value={{
+      counter,
+      increaseBy,
+      product
+    }}>
+      <div className={styles.productCard}>
+          {children}
+      </div>
+    </Provider>    
+  )
+}
+
+
+
+import React from 'react'
+import { ProductCard, ProductImage, ProductTitle, ProductBottons } from '../components/ProductCard'
+
+//Definimos solo un objeto de varios productos 
+const product = {
+    id:'1',
+    title:'Coffee Mug- Card',
+    img:"./coffee-mug.png"
+}
+
+export const ShoppingPage = () => {
+  return (
+        <>
+            <div>
+                <h1>Shopping Store</h1>
+            </div>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+            }}>        
+            <ProductCard product={product}>
+                <ProductImage/>
+                <ProductTitle/>
+                <ProductBottons/>
+            </ProductCard>
+
+
+            </div>    
+        </>
+  )
+}
 ```
 
+# Sección 6: Patrones de componentes - Extensible Styles
+> En esta sección aprenderemos a extender la funcionalidad de nuestro componente añadiendo la posibilidad de interpretar clases de CSS y/o estilos en línea (inline styles)
+
+## Clase 70: Extensible Styles
+
+> Este patron de diseño permite enviarle o heredarle estilo de clases a sus componentes pre fabricados.  
+
+**Pasos**
+- Paso 1: Debemos definir nuestros estilos, nuestra carérta styles-> `custom-styles.css`
+- Paso 2: Recuerda que este metodo se enviar por props, ciertos paramentros lo que se recomienda es ajustar las interface o crear interface por cada componente creado Ej
+```
+  //Definimos interfaz para el componente titulo 
+  export interface PructCardTitle {
+    className?:string;
+    title?:string;
+  }  
+  
+//Definimos interfaz para el componente image 
+  export interface PructCardImage {
+    className?:string;
+    img?:string;
+  }
+  
+  //Definimos interfaz para el componente image 
+  export interface PructCardButtons {
+    className?:string;
+  }
+```
+- Paso 3: Recuerda que existe una interface pricipal que permite heredar a los hijos `children` solo aqui en esa interface donde va el children debemos decirle que permita recibir `className` Ejem
+```
+//Creamos nuestras props Esto es la clave para que funcione el patron de diseño 
+export interface ProductCardProps { //Esta interfaz es de mayor gerarquia 
+    product:    Product;
+    children?:  ReactElement | ReactElement[];
+    className?: string;//>Aqui la clave del exito
+  }
+
+```
+- Paso 4: Luego de generar las interfaces vamos al props de cada componente y mathing con las interfaces adecuadas eso permite recibir `className` y podelos usarlas en nuestro componente Ej
+```
+//Importamos interfaces
+import {PructCardImage} from '../interfaces/interfaces';
+
+export const ProductImage =({img, className}:PructCardImage)=>{
+```
+ > debe ver que aqui importamos la interfacess y mathing para que quede con la definición 
+- Paso 5: ya que recibimos `className` podremos usarlo en donde deseamos aqui un gran detalle debemos usar bath tips `${}` para poder usarlo en el verdadero `className` Ejemplo 
+```
+return (<img className={ `${styles.productImg} ${className}`} src={imgToShow } alt="Product" />)
+```
+Guia -> [Guia del componente Title]('Proyectos\react-adv-compound-extensible-style\src\02-component-patterns\components\ProductTitle.tsx')
+
+- Paso 6: ya para finalizar pasamos las `clasName` previamente definidas en nuestra hoja de estilo, ejemplo 
+```
+export const ShoppingPage = () => {
+  return (
+        <>
+            <div >
+                <h1>Shopping Store</h1>
+            </div>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+            }}>        
+            <ProductCard 
+                product={product} 
+                className='bg-dark text-white'
+             >
+                <ProductImage className='custom-image'/>
+                <ProductTitle className='text-white'/>
+                <ProductBottons className='custom-image'/>
+            </ProductCard>
+            </div>    
+        </>
+  )
+}
+```
+
+
+# Sección 7: Sección 7: Patrones de componentes - Control Props
+
+## Clase: 79 - 82
+> El patrón de "Control Props" es una técnica que se utiliza en React para combinar el estado interno del componente con las props que se pasan desde sus padres. En lugar de que el componente mantenga su propio estado interno, el estado se administra en el padre y se pasa al componente hijo como una prop.
+
+**Ventajas**
+> De esta manera, el componente hijo sigue siendo un componente controlado por su padre, pero el padre también tiene la capacidad de controlar el estado del componente. Esto puede ser útil cuando se desea que el padre tenga un mayor control sobre el componente hijo, o cuando se desea compartir datos entre varios componentes.
+
+
+**Ejemplo**
+```
+// componente hijo
+function Input(props) {
+  return (
+    <input 
+      type="text"
+      value={props.value} 
+      onChange={props.onChange} 
+    />
+  );
+}
+
+// componente padre
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: ""
+    };
+    this.handleNameChange = this.handleNameChange.bind(this);
+  }
+
+  handleNameChange(event) {
+    this.setState({name: event.target.value});
+  }
+
+  render() {
+    return (
+      <div>
+        <Input value={this.state.name} onChange={this.handleNameChange} />
+        <p>El nombre ingresado es: {this.state.name}</p>
+      </div>
+    );
+  }
+}
+```
+
+## Clase: 83-85: 
+> Esto es una forma de especificar useState que permita solo un formato TypeScript 
+
+`const [shopingcart, setShopingcart] = useState<{[key:string]:PructInCar}>({});`
+
+## Clase 86: Cosas que no 
+
+## Esto no se hace si vamos a cambiar un estado debemos usar su modificador set
+`shopingcart[product.id]={...product, count}` 
+
+
+## Forma de imprimir en pantalla tus valores 
+
+```
+<div>
+<code>
+{JSON.stringify(shopingcart, null, 5)}
+</code>
+</div>
+```
+
+## Clase 90: !! Niega y afirma 
+
+- `const isControlled = useRef(!!onChange);`//!! Esta madre indica que si es false te enviar true como resultado positivo 
+- `return onChange!({count:value, product})`//El signo de admiracion es indicativo a typeScript que "Oye confia en mi se que hay un error pero ya lo estoy validando" recuerda typeScript siempre le preocupará que una función o un valor sea undefined ya que esto rompe el sistema
+- `if (isControlled.current && onChange ){`//El signo de && es indicativo a typeScript que que evalue ambas sean ciertas 

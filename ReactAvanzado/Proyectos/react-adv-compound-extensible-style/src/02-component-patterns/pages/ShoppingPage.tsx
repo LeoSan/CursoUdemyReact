@@ -1,5 +1,6 @@
 import React from 'react'
 import { ProductCard, ProductImage, ProductTitle, ProductBottons } from '../components/'
+import '../styles/styles.module.css';
 
 //Definimos solo un objeto de varios productos 
 const product = {
@@ -11,7 +12,7 @@ const product = {
 export const ShoppingPage = () => {
   return (
         <>
-            <div>
+            <div >
                 <h1>Shopping Store</h1>
             </div>
             <div style={{
@@ -19,10 +20,14 @@ export const ShoppingPage = () => {
                 flexDirection: 'row',
                 flexWrap: 'wrap'
             }}>        
-            <ProductCard product={product}>
-                <ProductImage/>
-                <ProductTitle/>
-                <ProductBottons/>
+            <ProductCard 
+                product={product} 
+                className='bg-dark text-white'
+                style={{backgroundColor:'#70D1F8'}}
+             >
+                <ProductImage className='custom-image'/>
+                <ProductTitle className='text-white'/>
+                <ProductBottons className='custom-image'/>
             </ProductCard>
             </div>    
         </>
