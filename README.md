@@ -9,5 +9,9 @@ Para este año 2021 inicie en adquirir habilidades en el desarrollo de React dej
 - FundamentosJs
 - ProyectosBasicos en React 
 - ProyectosNext FrameWork de Next de React 
+- React PRO: Estudio de patrones de diseño en React
+  - Component Compund Patter
+  - Component Control Props
+  - Component state initial 
 
 

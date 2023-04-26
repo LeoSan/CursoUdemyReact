@@ -1232,3 +1232,46 @@ export const useProduct = ( {onChange, product, value=0, initialValues}: useProd
     }
 }
 ```
+
+## Clase 101: Forma de retornar como FORMIK 
+
+- Es una función que esta regresando un JSX
+- Paso 1: Nuestro componente le hacemos el ajuste para que renderice usando una función 
+```
+                        {
+                            ()=>(
+                                <>
+                                    <ProductImage className='custom-image'/>
+                                    <ProductTitle className='text-white'/>
+                                    <ProductBottons className='custom-image'/>
+                                </>
+                            )
+
+                        }
+```
+- Paso 2: //Solo lo usamos para el patrons tate initial, ya que este patron usa una funcion para redenrizar
+```
+// //Solo lo usamos para el patrons tate initial, ya que este patron usa una funcion para redenrizar
+//Creamos nuestras props Esto es la clave para que funcione el patron de diseño 
+export interface ProductCardProps { //Esta interfaz es de mayor gerarquia 
+    product:    Product;
+    children?: ()=>JSX.Element; //Solo lo usamos para el patrons tate initial, ya que este patron usa una funcion para redenrizar
+    className?: string;
+    style?: React.CSSProperties; //Esto permite usar estilos dentro de tu componente  
+    onChange?:(args:onChangeArgs)=>void; //forma de declarar un metodo 
+    value?:number;
+    initialValues?:InitialValues
+  }
+  
+```
+
+# Sección 9: NPM Deploy - Desplegar paquete de componentes
+> Al implementar patrones de diseño tenemos la ventaja de crear nuestros propios componentes en la nube para que otras personas puedan usalo, tenemos la habilidad de crear en NPM este componente y solo debemos importarlo en nuestro proyecto. 
+
+## Podemos usar el siguiente manual para crear nuestro propio NPM
+
+- ![Manual](./info/Screenshot_1.png) 
+- Creador por ->  **Fernando Herreara** -> twitter -> **@Fernando_Her85**
+- [Descargar Manual](./info/Desplegar-NPM.pdf)
+
+ 

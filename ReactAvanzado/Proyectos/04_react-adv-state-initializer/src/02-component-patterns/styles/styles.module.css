@@ -8,11 +8,6 @@
     width: 250px;
     margin-right: 5px;
     margin-top: 5px;
-    height: auto;
-    max-height: 330px;
-    margin-top: 78px;
-    left: -221px;
-    position: relative;
 }
 
 .productImg {
@@ -66,29 +61,9 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-/*--------------------------------------*/
-.bg-dark{
-    background-color: rgb(56,56,56);
-}
 
-.text-white{
-   color:white; 
-}
-
-.custom-image{
-   border-radius: 20px;
-   padding: 10px;
-   width: calc(100% -20px);/*Permite que la imagen quede centrada*/
-}
-
-.custom-buttons button, .custom-buttons div {
-    color: white;
-    border-color: white;
-}
-
-.shoping-cart{
-    position: fixed;
-    top:0px;
-    right: 10px;
-
+.disabled {
+    border-color: grey !important;
+    border-left: 1px solid white !important;
+    color: grey !important;
 }

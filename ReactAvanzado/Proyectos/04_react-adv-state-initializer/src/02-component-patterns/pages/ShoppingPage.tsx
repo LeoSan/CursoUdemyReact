@@ -1,62 +1,48 @@
-import { useState } from 'react';
-import { ProductCard, ProductImage, ProductTitle, ProductBottons } from '../components/'
-import '../styles/styles.module.css';
-import {Product, PructInCar} from '../interfaces/interfaces';
+import { ProductCard, ProductImage, ProductTitle, ProductButtons } from '../components';
 
-import '../styles/styles.module.css';
-import { useShoppingPageCart } from '../hooks/useShoppingPageCart';
+import { products } from '../data/products';
+import '../styles/custom-styles.css';
 
-//Definimos solo un objeto de varios productos 
-const product1 = {
-    id:'1',
-    title:'Coffee Mug - Card',
-    img:"./coffee-mug.png"
-}
-const product2 = {
-    id:'2',
-    title:'Coffee Meme - Card',
-    img:"./coffee-mug2.png"
-}
+const product = products[0];
+
+
 
 export const ShoppingPage = () => {
+ 
 
+    return (
+        <div>
+            <h1>Shopping Store</h1>
+            <hr />
 
-  return (
-        <>
-            <div>
-                <h1>Shopping Store</h1>
-            </div>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap'
-            }}>        
-                    <ProductCard 
-                        key={product2.id}
-                        product={product2} 
-                        className='bg-dark text-white'
-                        style={{backgroundColor:'#70D1F8'}}
-                        initialValues={{
-                            count:4,
-                            maxCount:10
+            <ProductCard 
+                key={ product.id }
+                product={ product }
+                className="bg-dark text-white"
+                initialValues={{
+                    count: 2,
+                     maxCount: 20,
+                }}
+            >
+                {
+                    ({ reset, count, isMaxCountReached, maxCount, increaseBy  }) => (
+                        <>
+                            <ProductImage className="custom-image" style={{ boxShadow: '10px 10px 10px rgba(0,0,0,0.2)' }} />
+                            <ProductTitle className="text-bold" />
+                            <ProductButtons className="custom-buttons" />
                             
-                        }}
-                       
-                    >
-                    <ProductImage className='custom-image'/>
-                    <ProductTitle className='text-white'/>
-                    <ProductBottons className='custom-image'/>
-                </ProductCard>                    
-                
+                            <button onClick={ reset }>Reset</button>
+                            <button onClick={ () => increaseBy(-2) }> -2 </button>
+                            {
+                                ( !isMaxCountReached && <button onClick={ ()=> increaseBy(+2) }> +2 </button> )
+                            }
+                            
+                            <span>{ count } - { maxCount }</span>
+                        </>
+                    )
+                }
+            </ProductCard>
 
-            </div>    
-            <div style={{
-                  position: 'fixed',
-                  top:'0px',
-                  right: '10px'
-            }}>
-
-            </div>
-        </>
-  )
+        </div>
+    )
 }

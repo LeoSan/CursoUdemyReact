@@ -5,10 +5,8 @@ import {
   NavLink
 } from 'react-router-dom';
 
-//Iportamos nuestro Page
-import { ShoppingPage } from '../02-component-patterns/pages/ShoppingPage';
-
 import logo from '../logo.svg';
+import { ShoppingPage } from '../02-component-patterns/pages/ShoppingPage';
 
 export const Navigation = () => {
   return (
@@ -39,7 +37,7 @@ export const Navigation = () => {
             <h1>Users</h1>
           </Route>
           <Route path="/">
-            <ShoppingPage/>
+            <ShoppingPage />
           </Route>
         </Switch>
       </div>

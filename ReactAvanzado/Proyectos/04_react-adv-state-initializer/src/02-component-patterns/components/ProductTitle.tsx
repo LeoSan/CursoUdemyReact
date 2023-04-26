@@ -1,22 +1,26 @@
 import { useContext } from 'react';
-import styles from '../styles/styles.module.css';
-import { ProductContext } from './ProductCard';
+import { ProductContext } from "./ProductCard";
+
+import styles from '../styles/styles.module.css'
 
 
-//Importamos interfaces
-import {PructCardTitle} from '../interfaces/interfaces';
+export interface Props {
+    className?: string 
+    title?: string, 
+    activeClass?: string;
+    style?: React.CSSProperties 
+}
 
-export const ProductTitle =({title, className}:PructCardTitle)=>{//Solos e hace esto cuando es solo una propiedad si no pues debemos aplicar lo de una interfaz
-  
-    const {product} = useContext(ProductContext)
-    let titleToShow:string;
-    if (title){
-      titleToShow=title
-    }else if(product.title){
-      titleToShow=product.title
-    }else{
-      titleToShow = 'sin titulo'
-    }  
-    
-    return (<span className={ `${styles.productDescription} ${className}` }>{titleToShow}</span>)
-  }
+export const ProductTitle = ({ title, className, style }: Props) => {
+
+    const { product } = useContext( ProductContext )
+
+    return (
+        <span 
+            className={ `${ styles.productDescription } ${ className }` }
+            style={ style }
+        >
+            { title ? title : product.title }
+        </span>
+    );
+}
