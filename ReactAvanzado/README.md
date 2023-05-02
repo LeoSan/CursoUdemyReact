@@ -1120,8 +1120,168 @@ class App extends React.Component {
 </div>
 ```
 
-## Clase 90: !! Niega y afirma 
+## Clase 90 - 94: !! Niega y afirma 
 
 - `const isControlled = useRef(!!onChange);`//!! Esta madre indica que si es false te enviar true como resultado positivo 
 - `return onChange!({count:value, product})`//El signo de admiracion es indicativo a typeScript que "Oye confia en mi se que hay un error pero ya lo estoy validando" recuerda typeScript siempre le preocupará que una función o un valor sea undefined ya que esto rompe el sistema
 - `if (isControlled.current && onChange ){`//El signo de && es indicativo a typeScript que que evalue ambas sean ciertas 
+
+
+# Sección 8: State initializer + Function Child = Render Props - Formik implementation
+## Clase 95: 
+
+**Concepto**
+- Hay que aclarar que falta teoria complementadola con OpenAi nos indica que este no es un patron como tal si no un concepto básico de Reac, dejare los dos enunciados para apoyo complementario tocará investigar mas. 
+
+**Enunciado del Curso**
+```
+el patrón principalmente pide que se pueda ofrecer un estado inicial y una forma de re-establecer el estado a su forma original, pero nosotros aquí lo llevaremos a otro nivel exponiendo funciones y nuevas propiedades.
+
+También aprenderemos a enviar una función como children, similar a la implementación de Formik.
+```
+
+**Enunciado del OpenAi**
+```
+¡Hola! En React, no existe un patrón de diseño específico llamado "State Initializer". Sin embargo, es posible que te refieras al concepto de "State Initialization", que se refiere al proceso de establecer un valor inicial para el estado de un componente.
+
+En React, el estado (state) es un objeto que representa los datos que pueden cambiar en un componente. El estado se define dentro del constructor del componente y se puede inicializar con un valor predeterminado. También se puede actualizar durante la vida útil del componente mediante el método setState().
+```
+
+**Ejemplo**
+
+```
+//En este ejemplo, el estado se inicializa con un objeto que contiene dos propiedades: "nombre" y "edad". Estas propiedades se utilizan para mostrar información en la interfaz de usuario.
+
+import React, { Component } from 'react';
+
+class MiComponente extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nombre: 'Juan',
+      edad: 25,
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Nombre: {this.state.nombre}</p>
+        <p>Edad: {this.state.edad}</p>
+      </div>
+    );
+  }
+}
+```
+
+## Clase 96-100:
+**Notas**
+- Podemos usar el useRed para validar si un compoenente esta montado o no util para ciertas procesos
+- Como es muy util las interfaces en TS se usa para todo 
+
+```
+import { useEffect, useRef, useState } from "react";
+//Importamos interfaces
+import { Product, onChangeArgs, InitialValues } from '../interfaces/interfaces';
+
+
+interface useProductArgs {
+    product: Product;
+    onChange?:(args:onChangeArgs) =>void; //forma declarar metodo
+    value?:number;
+    initialValues?:InitialValues;
+
+}
+
+export const useProduct = ( {onChange, product, value=0, initialValues}: useProductArgs )=>{
+
+    const [counter, setCounter] = useState<number>(initialValues?.count || value);
+
+    //Valido si el componente esta montado
+    const isMounted = useRef(false);//permite crear un objeto que sobrevivira a diferente refresh del mismo hook, me permite manejar una varibale sin que dispare nuevos render en react 
+
+   //Metodo: Permite incrementar 
+    const increaseBy =(value:number)=>{
+
+        let newValue = Math.max(counter + value, 0)
+       
+        //Valido hasta un máximo
+        if(initialValues?.maxCount){
+            newValue = Math.min(newValue, initialValues?.maxCount); //toma el minimo entre ambos valores 
+        }
+
+        setCounter( newValue );
+    
+        onChange && onChange({ count:newValue, product });//Forma elegante de hacer un condicional if(onChange){}
+    }
+
+    //Esto permite escuchar si el value cambia y permite sincronizar de las tarjetas grandes a la pequeñas
+    useEffect(()=>{
+        if (!isMounted.current) return
+        setCounter( value );
+    },[value])
+
+    //Se recomienda que los useEffet haga cosas especificas 
+    useEffect(()=>{
+       isMounted.current = true;
+    },[])
+    
+    return {
+        counter, 
+        increaseBy
+    }
+}
+```
+
+## Clase 101: Forma de retornar como FORMIK 
+
+- Es una función que esta regresando un JSX
+- Paso 1: Nuestro componente le hacemos el ajuste para que renderice usando una función 
+```
+                        {
+                            ()=>(
+                                <>
+                                    <ProductImage className='custom-image'/>
+                                    <ProductTitle className='text-white'/>
+                                    <ProductBottons className='custom-image'/>
+                                </>
+                            )
+
+                        }
+```
+- Paso 2: //Solo lo usamos para el patrons tate initial, ya que este patron usa una funcion para redenrizar
+```
+// //Solo lo usamos para el patrons tate initial, ya que este patron usa una funcion para redenrizar
+//Creamos nuestras props Esto es la clave para que funcione el patron de diseño 
+export interface ProductCardProps { //Esta interfaz es de mayor gerarquia 
+    product:    Product;
+    children?: ()=>JSX.Element; //Solo lo usamos para el patrons tate initial, ya que este patron usa una funcion para redenrizar
+    className?: string;
+    style?: React.CSSProperties; //Esto permite usar estilos dentro de tu componente  
+    onChange?:(args:onChangeArgs)=>void; //forma de declarar un metodo 
+    value?:number;
+    initialValues?:InitialValues
+  }
+  
+```
+
+# Sección 9: NPM Deploy - Desplegar paquete de componentes
+> Al implementar patrones de diseño tenemos la ventaja de crear nuestros propios componentes en la nube para que otras personas puedan usalo, tenemos la habilidad de crear en NPM este componente y solo debemos importarlo en nuestro proyecto. 
+
+## Clase 102-122: Podemos usar el siguiente manual para crear nuestro propio NPM
+
+- ![Manual](./info/Screenshot_1.png) 
+- Creador por ->  **Fernando Herreara** -> twitter -> **@Fernando_Her85**
+- [Descargar Manual](./info/Desplegar-NPM.pdf)
+
+ 
+## Permite que pase las pruebas 
+- ![Manual](./info/Screenshot_2.png) 
+
+#  Sección 10: Formik - React Forms
+> Esta sección se explicará la diferencia de generar un formulario normal en react y uno con formik 
+
+## Clase 123-125:  Armamos nuestros proyecto desde cero 
+
+
+ 
