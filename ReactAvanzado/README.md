@@ -1268,10 +1268,20 @@ export interface ProductCardProps { //Esta interfaz es de mayor gerarquia
 # Sección 9: NPM Deploy - Desplegar paquete de componentes
 > Al implementar patrones de diseño tenemos la ventaja de crear nuestros propios componentes en la nube para que otras personas puedan usalo, tenemos la habilidad de crear en NPM este componente y solo debemos importarlo en nuestro proyecto. 
 
-## Podemos usar el siguiente manual para crear nuestro propio NPM
+## Clase 102-122: Podemos usar el siguiente manual para crear nuestro propio NPM
 
 - ![Manual](./info/Screenshot_1.png) 
 - Creador por ->  **Fernando Herreara** -> twitter -> **@Fernando_Her85**
 - [Descargar Manual](./info/Desplegar-NPM.pdf)
+
+ 
+## Permite que pase las pruebas 
+- ![Manual](./info/Screenshot_2.png) 
+
+#  Sección 10: Formik - React Forms
+> Esta sección se explicará la diferencia de generar un formulario normal en react y uno con formik 
+
+## Clase 123-125:  Armamos nuestros proyecto desde cero 
+
 
  
