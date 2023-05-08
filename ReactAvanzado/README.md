@@ -1284,4 +1284,115 @@ export interface ProductCardProps { //Esta interfaz es de mayor gerarquia
 ## Clase 123-125:  Armamos nuestros proyecto desde cero 
 
 
- 
+## Clase 136:  Formik - getFieldProps
+> Es super importante este caso, sabes que en formik debes estar declarando onBlur, onChnage, vale de manera manual pero con este método te incorpora la funcionalidad solo recibe como parametro el nombre del campo Ejemplo 
+
+**Notas**
+- Queda un código mas limpio y sencillo de leer 
+```
+// Antes
+            <input
+                name='nombre'
+                placeholder='Ingrese nombre'
+                type='text'
+                onChange={formik.handleChange}
+                value={formik.values.nombre}
+                onBlur={formik.handleBlur}
+            />
+```
+```
+// Despues 
+
+    <input
+        placeholder='Ingrese nombre'
+        type='text'
+        {...formik.getFieldProps('nombre')}
+    />
+```
+
+**Enlace**
+-  [Ejemplo](./Proyectos/05_basic_formik/src/03_forms/pages/RegisterFormikYup.tsx)
+
+## Clase 137:  Formik - Components
+
+>Esto es una locura ya que el formik puede generar componentes y hacerlo mucho mas dinamico y pequeño podemos usar las propiedades `import { Formik, Field, Form, ErrorMessage } from 'formik';` la clave es mantener el orden y extructura que pondre como ejemplo: 
+
+```
+//Busqueda
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+
+//Import librerias
+import * as Yup from 'yup';
+
+//Estilos 
+import '../styles/styles.css'; 
+
+
+export const RegisterFormikComponents = () => {
+
+  return (
+    <div>
+        <h1>Register Components Page</h1>
+        
+        <Formik 
+            initialValues={{
+                nombre:'',   //Debe coincidir con el nombre del input 
+                apellido:'', //Debe coincidir con el apellido del input 
+                email:'',    //Debe coincidir con el email del input 
+            }}
+            onSubmit={(values)=>{
+
+            }}
+            validationSchema={
+                Yup.object({
+                    nombre:Yup.string().max(15, 'Debe de tener 15 caractere o menos').required('requerido'),
+                    apellido:Yup.string().max(15, 'Debe de tener 15 caractere o menos').required('requerido'),
+                    email:Yup.string().email("Field should contain a valid e-mail").max(255).required("E-mail is required"),
+                })    
+            }
+        >
+
+            {
+                (formik)=>(
+                    <Form  >
+                    <label htmlFor='nombre'>Nombre:</label>
+                    <Field
+                        placeholder='Ingrese nombre'
+                        type='text'
+                        {...formik.getFieldProps('nombre')}
+                    />
+                    <ErrorMessage name="nombre" component="span"/>
+                    
+        
+                    <label htmlFor='nombre'>Apellido:</label>
+                    <Field
+                        placeholder='Ingrese nombre'
+                        type='text'
+                        {...formik.getFieldProps('apellido')}
+                    />
+                     <ErrorMessage name="apellido" component="span"/>
+                    
+                    
+                    <label htmlFor='email'>Email:</label>
+                    <Field
+                        
+                        placeholder='Ingrese email'
+                        type='email'
+                        {...formik.getFieldProps('email')}
+                    />
+                    <ErrorMessage name="email" component="span"/>
+
+
+                    <button type="submit"> Register </button>  
+                    <button type="button"> Reset Form </button>  
+                </Form>
+                )
+            }
+
+        </Formik>
+
+    </div>
+  )
+}
+
+```
