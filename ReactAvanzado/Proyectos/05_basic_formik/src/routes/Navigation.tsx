@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 //Iportamos nuestro Page
-import { RegisterPage, RegisterFormik, RegisterFormikYup, RegisterFormikComponents,RegisterFormikAbstrato  } from '../03_forms/pages/';
+import { RegisterPage, RegisterFormik, RegisterFormikYup, RegisterFormikComponents,RegisterFormikAbstrato, RegisterFormikDinamico  } from '../03_forms/pages/';
 
 import logo from '../logo.svg';
 
@@ -32,6 +32,9 @@ export const Navigation = () => {
             <li>
               <NavLink to="/RegisterFormikAbstrato" activeClassName="nav-active" exact>Register Formik Abstrato</NavLink>
             </li>
+            <li>
+              <NavLink to="/RegisterFormikDinamico" activeClassName="nav-active" exact>Register Formik Dinamico</NavLink>
+            </li>
           </ul>
         </nav>
 
@@ -53,6 +56,9 @@ export const Navigation = () => {
           </Route>
           <Route path="/RegisterFormikAbstrato">
             <RegisterFormikAbstrato/>
+          </Route>          
+          <Route path="/RegisterFormikDinamico">
+            <RegisterFormikDinamico/>
           </Route>
         </Switch>
       </div>

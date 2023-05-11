@@ -1313,7 +1313,7 @@ export interface ProductCardProps { //Esta interfaz es de mayor gerarquia
 **Enlace**
 -  [Ejemplo](./Proyectos/05_basic_formik/src/03_forms/pages/RegisterFormikYup.tsx)
 
-## Clase 137:  Formik - Components
+## Clase 137-143:  Formik - Components
 
 >Esto es una locura ya que el formik puede generar componentes y hacerlo mucho mas dinamico y pequeño podemos usar las propiedades `import { Formik, Field, Form, ErrorMessage } from 'formik';` la clave es mantener el orden y extructura que pondre como ejemplo: 
 
@@ -1396,3 +1396,11 @@ export const RegisterFormikComponents = () => {
 }
 
 ```
+
+
+#  Sección 10: Sección 11: Formik Dynamic y Custom Forms
+> Esta sección se explicará como generar un formulario dinamico por medio de un json 
+
+## Clase 144-153: 
+
+**Notas**

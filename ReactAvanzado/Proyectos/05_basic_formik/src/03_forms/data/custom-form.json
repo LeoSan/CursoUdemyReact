@@ -1,0 +1,75 @@
+[
+    {
+        "type": "input",
+        "name": "firstName",
+        "placeholder": "Ingrese Nombre",
+        "label": "Nombre :",
+        "value": "",
+        "validations": [
+            {
+                "type": "required",
+                "description":"Campo obligatorio"
+            },
+            {
+                "type": "minLength",
+                "value": 5,
+                "description":"Mínimo 5 caracteres."
+            }
+        ]
+    },
+    {
+        "type": "input",
+        "name": "lastName",
+        "placeholder": "Ingrese Apellido",
+        "label": "Apellido:",
+        "value": "",
+        "validations": [
+            {
+                "type": "required",
+                "description":"Campo obligatorio"
+
+            }
+        ]
+    },
+    {
+        "type": "email",
+        "name": "email",
+        "placeholder": "Ingrese Correo",
+        "label": "Correo:",
+        "value": "",
+        "validations": [
+            {
+                "type": "required",
+                "description":"Campo obligatorio"
+            },
+            {
+                "type": "email",
+                "description":"El formato del correo no es correcto."
+            }
+        ]
+    },
+    {
+        "type": "select",
+        "name": "favoriteGame",
+        "label": "Juego:",
+        "value": "",
+        "options": [{
+            "id": 1,
+            "label": "Super Mario"
+        },
+        {
+            "id": 2,
+            "label": "Metal Gear"
+        },
+        {
+            "id": 3,
+            "label": "Dios de la guerra"
+        }],
+        "validations": [
+            {
+                "type": "required",
+                "description":"Campo obligatorio"
+            }
+        ]
+    }
+]
