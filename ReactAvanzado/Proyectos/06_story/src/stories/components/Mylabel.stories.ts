@@ -1,12 +1,32 @@
+import type { Meta, StoryObj } from '@storybook/react';
 import { MyLabel } from "../../components/MyLabel";
 
-export default {
-    title:'Ui/Mylabel',
-    component: MyLabel
-}
 
-const Template = () => <MyLabel>
+const meta = {
+    title: 'Ui/Mylabel',
+    component: MyLabel,
+    tags: ['autodocs'],
+    
+    argTypes: {
+      label:  { label: 'Prueba' },
+      size:   { size: 'normal' },
+      color:  { control:'select', options:['primary', 'secondary', 'tertiary']},
+      backgroundColor: { control: 'color' },
+    },
+  } satisfies Meta<typeof MyLabel>;
+  
+  export default meta;
 
+  type Story = StoryObj<typeof meta>;
 
-export const  Basic = Template.bind({}); //Copia de este template 
+// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+export const Basic: Story = {
+    args: {
+        label: 'Prueba',
+        color:'primary'
+      },
+};
+
+  
+  
 

@@ -1487,7 +1487,11 @@ ReactDOM.render(
 - Paso 5: Debe salir esta presentación en pantalla
   - ![Inicio](./info/Screenshot_6.png)
 
-## Clase 159: Component label
+## Clase 159-168: Component label
 **Notas**
+- Este es el manual [Manual para crear historias](https://storybook.js.org/docs/react/writing-stories/introduction)
 - Esto es para probar solo componentes no es para generarlos como comenta Fernando se deben crear y probar y llegar a un consenso con el equipo. 
-- 
+- Nota del curso esta sección esta algo obsoleta me toco entender el codigo principal e implementar un label. 
+- Las historias es la clave pero antes debes crear tus mini compoenentes en un directorio por ejemplo -> [Componente Mylabel](../ReactAvanzado/Proyectos/06_story/src/components/MyLabel.tsx)
+- Luego de crear tus componenetes esto parece que se va actualizando pero sigue la logica basica de las historias -> [Historia de Mylabel](../ReactAvanzado/Proyectos/06_story/src/stories/components/MyLabel.stories.ts) ejemplo
+
