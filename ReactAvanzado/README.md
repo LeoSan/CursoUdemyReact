@@ -1398,9 +1398,96 @@ export const RegisterFormikComponents = () => {
 ```
 
 
-#  Sección 10: Sección 11: Formik Dynamic y Custom Forms
+#  Sección 11: Formik Dynamic y Custom Forms
 > Esta sección se explicará como generar un formulario dinamico por medio de un json 
 
 ## Clase 144-153: 
 
 **Notas**
+
+
+
+
+#  Sección 12: Sección 11: Formik Dynamic y Custom Forms
+```
+Temas puntuales de la sección
+Esta sección está enfocada en aprender como integrar Storybook en nuestras aplicaciones de React para transformarla en una aplicación que nos ayudará a probar y desarrollar de una mejor manera nuestros componentes.
+
+La sección tiene por objectivo aprender:
+
+Integrar Storybook en una aplicación de React con Npx
+
+Crear un componente desde cero
+
+Crear historias
+
+Configurar historias
+
+Utilizar varios controles para las properties
+
+Integración con TypeScript
+
+Crear documentaciones de componentes
+
+Desplegar documentación a diferentes sitios
+
+Bonus: Chromatic para desplegar Storybook de forma colaborativa
+```
+
+
+## Clase 154-157:
+
+**Notas** 
+- storybook-> Nos permite crear componentes y probarlos en el mismo siemiento
+- Debemos definir en que framework ya que storybook se integra a muchos frame
+- 
+
+**Enlaces**
+- https://storybook.js.org/docs/react/get-started/install/
+
+
+**Pasos**
+- Si usamos en este caso react debemos romper todo el sistema eliminar praticamento todo y solo dejar el index de la carperta src 
+
+- Paso 1: Borar todo como lo indica la imgen inferior y el index debe quear asi 
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+  <React.StrictMode>
+   
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+```
+
+![Inicio StoryBook](./info/Screenshot_3.png)
+
+- Paso 2: debemos instalar StoryBook 
+  - Comando `npx storybook@latest init`
+  - ![Ejemplo de Comando](./info/Screenshot_4.png)
+  
+- Paso 3: Realizamos un ajuste en el `package.json`
+  - Se hace el ajuste para correr storybook
+  - 
+```
+  "scripts": {
+    "start": "storybook dev -p 6006",
+    "build": "storybook build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+```
+- Paso 4: ejecutamos el comando luego de `npm run start`
+  - ![Inicio](./info/Screenshot_5.png)
+
+- Paso 5: Debe salir esta presentación en pantalla
+  - ![Inicio](./info/Screenshot_6.png)
+
+## Clase 159: Component label
+**Notas**
+- Esto es para probar solo componentes no es para generarlos como comenta Fernando se deben crear y probar y llegar a un consenso con el equipo. 
+- 
