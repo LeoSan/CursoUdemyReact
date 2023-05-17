@@ -1494,4 +1494,8 @@ ReactDOM.render(
 - Nota del curso esta sección esta algo obsoleta me toco entender el codigo principal e implementar un label. 
 - Las historias es la clave pero antes debes crear tus mini compoenentes en un directorio por ejemplo -> [Componente Mylabel](../ReactAvanzado/Proyectos/06_story/src/components/MyLabel.tsx)
 - Luego de crear tus componenetes esto parece que se va actualizando pero sigue la logica basica de las historias -> [Historia de Mylabel](../ReactAvanzado/Proyectos/06_story/src/stories/components/MyLabel.stories.ts) ejemplo
+- Para despleglarlo solo necesitamos ejecutar el comando `npm run build`, esto genera una carpeta llamda `storybook-static` esto contendra todo el compilado podemos montarlo en un `[netyfy](https://www.netlify.com/)` o instalar en tu local un servidor. 
 
+## Ejemplo Funcional 
+- Usando app.netlify ->  este es el enlace del componenete
+- [Ejmplo funcional](https://64652fa1fd25660c884ce2ca--musical-swan-09fe5e.netlify.app/)

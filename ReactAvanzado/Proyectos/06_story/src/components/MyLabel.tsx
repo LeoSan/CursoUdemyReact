@@ -8,6 +8,7 @@ interface MyLabelProps {
    * What background color to use
    */
   backgroundColor?: string;
+  fontColor?:string;
 }
 
 /**
@@ -18,13 +19,14 @@ export const MyLabel = ({
   label,
   color='primary',
   backgroundColor,
+  fontColor,
   ...props
 }: MyLabelProps) => {
   
   return (
     <span
-      className={ `${ size } text-${color}` }
-      style={{  backgroundColor } }
+      className={ `label ${ size } text-${color}` }
+      style={{ color:fontColor, backgroundColor:backgroundColor } }
       {...props}
     >
       {label}

@@ -3,7 +3,7 @@ import { MyLabel } from "../../components/MyLabel";
 
 
 const meta = {
-    title: 'Ui/Mylabel',
+    title: 'Ui/Leonard/Label',
     component: MyLabel,
     tags: ['autodocs'],
     
