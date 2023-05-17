@@ -1284,4 +1284,218 @@ export interface ProductCardProps { //Esta interfaz es de mayor gerarquia
 ## Clase 123-125:  Armamos nuestros proyecto desde cero 
 
 
- 
+## Clase 136:  Formik - getFieldProps
+> Es super importante este caso, sabes que en formik debes estar declarando onBlur, onChnage, vale de manera manual pero con este método te incorpora la funcionalidad solo recibe como parametro el nombre del campo Ejemplo 
+
+**Notas**
+- Queda un código mas limpio y sencillo de leer 
+```
+// Antes
+            <input
+                name='nombre'
+                placeholder='Ingrese nombre'
+                type='text'
+                onChange={formik.handleChange}
+                value={formik.values.nombre}
+                onBlur={formik.handleBlur}
+            />
+```
+```
+// Despues 
+
+    <input
+        placeholder='Ingrese nombre'
+        type='text'
+        {...formik.getFieldProps('nombre')}
+    />
+```
+
+**Enlace**
+-  [Ejemplo](./Proyectos/05_basic_formik/src/03_forms/pages/RegisterFormikYup.tsx)
+
+## Clase 137-143:  Formik - Components
+
+>Esto es una locura ya que el formik puede generar componentes y hacerlo mucho mas dinamico y pequeño podemos usar las propiedades `import { Formik, Field, Form, ErrorMessage } from 'formik';` la clave es mantener el orden y extructura que pondre como ejemplo: 
+
+```
+//Busqueda
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+
+//Import librerias
+import * as Yup from 'yup';
+
+//Estilos 
+import '../styles/styles.css'; 
+
+
+export const RegisterFormikComponents = () => {
+
+  return (
+    <div>
+        <h1>Register Components Page</h1>
+        
+        <Formik 
+            initialValues={{
+                nombre:'',   //Debe coincidir con el nombre del input 
+                apellido:'', //Debe coincidir con el apellido del input 
+                email:'',    //Debe coincidir con el email del input 
+            }}
+            onSubmit={(values)=>{
+
+            }}
+            validationSchema={
+                Yup.object({
+                    nombre:Yup.string().max(15, 'Debe de tener 15 caractere o menos').required('requerido'),
+                    apellido:Yup.string().max(15, 'Debe de tener 15 caractere o menos').required('requerido'),
+                    email:Yup.string().email("Field should contain a valid e-mail").max(255).required("E-mail is required"),
+                })    
+            }
+        >
+
+            {
+                (formik)=>(
+                    <Form  >
+                    <label htmlFor='nombre'>Nombre:</label>
+                    <Field
+                        placeholder='Ingrese nombre'
+                        type='text'
+                        {...formik.getFieldProps('nombre')}
+                    />
+                    <ErrorMessage name="nombre" component="span"/>
+                    
+        
+                    <label htmlFor='nombre'>Apellido:</label>
+                    <Field
+                        placeholder='Ingrese nombre'
+                        type='text'
+                        {...formik.getFieldProps('apellido')}
+                    />
+                     <ErrorMessage name="apellido" component="span"/>
+                    
+                    
+                    <label htmlFor='email'>Email:</label>
+                    <Field
+                        
+                        placeholder='Ingrese email'
+                        type='email'
+                        {...formik.getFieldProps('email')}
+                    />
+                    <ErrorMessage name="email" component="span"/>
+
+
+                    <button type="submit"> Register </button>  
+                    <button type="button"> Reset Form </button>  
+                </Form>
+                )
+            }
+
+        </Formik>
+
+    </div>
+  )
+}
+
+```
+
+
+#  Sección 11: Formik Dynamic y Custom Forms
+> Esta sección se explicará como generar un formulario dinamico por medio de un json 
+
+## Clase 144-153: 
+
+**Notas**
+
+
+
+
+#  Sección 12: Sección 11: Formik Dynamic y Custom Forms
+```
+Temas puntuales de la sección
+Esta sección está enfocada en aprender como integrar Storybook en nuestras aplicaciones de React para transformarla en una aplicación que nos ayudará a probar y desarrollar de una mejor manera nuestros componentes.
+
+La sección tiene por objectivo aprender:
+
+Integrar Storybook en una aplicación de React con Npx
+
+Crear un componente desde cero
+
+Crear historias
+
+Configurar historias
+
+Utilizar varios controles para las properties
+
+Integración con TypeScript
+
+Crear documentaciones de componentes
+
+Desplegar documentación a diferentes sitios
+
+Bonus: Chromatic para desplegar Storybook de forma colaborativa
+```
+
+
+## Clase 154-157:
+
+**Notas** 
+- storybook-> Nos permite crear componentes y probarlos en el mismo siemiento
+- Debemos definir en que framework ya que storybook se integra a muchos frame
+- 
+
+**Enlaces**
+- https://storybook.js.org/docs/react/get-started/install/
+
+
+**Pasos**
+- Si usamos en este caso react debemos romper todo el sistema eliminar praticamento todo y solo dejar el index de la carperta src 
+
+- Paso 1: Borar todo como lo indica la imgen inferior y el index debe quear asi 
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+  <React.StrictMode>
+   
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+```
+
+![Inicio StoryBook](./info/Screenshot_3.png)
+
+- Paso 2: debemos instalar StoryBook 
+  - Comando `npx storybook@latest init`
+  - ![Ejemplo de Comando](./info/Screenshot_4.png)
+  
+- Paso 3: Realizamos un ajuste en el `package.json`
+  - Se hace el ajuste para correr storybook
+  - 
+```
+  "scripts": {
+    "start": "storybook dev -p 6006",
+    "build": "storybook build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+```
+- Paso 4: ejecutamos el comando luego de `npm run start`
+  - ![Inicio](./info/Screenshot_5.png)
+
+- Paso 5: Debe salir esta presentación en pantalla
+  - ![Inicio](./info/Screenshot_6.png)
+
+## Clase 159-168: Component label
+**Notas**
+- Este es el manual [Manual para crear historias](https://storybook.js.org/docs/react/writing-stories/introduction)
+- Esto es para probar solo componentes no es para generarlos como comenta Fernando se deben crear y probar y llegar a un consenso con el equipo. 
+- Nota del curso esta sección esta algo obsoleta me toco entender el codigo principal e implementar un label. 
+- Las historias es la clave pero antes debes crear tus mini compoenentes en un directorio por ejemplo -> [Componente Mylabel](../ReactAvanzado/Proyectos/06_story/src/components/MyLabel.tsx)
+- Luego de crear tus componenetes esto parece que se va actualizando pero sigue la logica basica de las historias -> [Historia de Mylabel](../ReactAvanzado/Proyectos/06_story/src/stories/components/MyLabel.stories.ts) ejemplo
+- Para despleglarlo solo necesitamos ejecutar el comando `npm run build`, esto genera una carpeta llamda `storybook-static` esto contendra todo el compilado podemos montarlo en un `[netyfy](https://www.netlify.com/)` o instalar en tu local un servidor. 
+
+## Ejemplo Funcional 
+- Usando app.netlify ->  este es el enlace del componenete
+- [Ejmplo funcional](https://64652fa1fd25660c884ce2ca--musical-swan-09fe5e.netlify.app/)

@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 //Iportamos nuestro Page
-import { ShoppingPage } from '../02-component-patterns/pages/ShoppingPage';
+import { RegisterPage, RegisterFormik, RegisterFormikYup, RegisterFormikComponents,RegisterFormikAbstrato, RegisterFormikDinamico  } from '../03_forms/pages/';
 
 import logo from '../logo.svg';
 
@@ -18,13 +18,22 @@ export const Navigation = () => {
             <img src={ logo } alt="React Logo" />
           <ul>
             <li>
-              <NavLink to="/" activeClassName="nav-active" exact>Shopping</NavLink>
+              <NavLink to="/register" activeClassName="nav-active" exact>Register Page</NavLink>
             </li>
             <li>
-              <NavLink to="/about" activeClassName="nav-active" exact>About</NavLink>
+              <NavLink to="/registerformik" activeClassName="nav-active" exact>Register Formik </NavLink>
             </li>
             <li>
-              <NavLink to="/users" activeClassName="nav-active" exact>Users</NavLink>
+              <NavLink to="/registerformikyup" activeClassName="nav-active" exact>Register Formik  Yup</NavLink>
+            </li>            
+            <li>
+              <NavLink to="/RegisterFormikComponents" activeClassName="nav-active" exact>Register Formik Components</NavLink>
+            </li>            
+            <li>
+              <NavLink to="/RegisterFormikAbstrato" activeClassName="nav-active" exact>Register Formik Abstrato</NavLink>
+            </li>
+            <li>
+              <NavLink to="/RegisterFormikDinamico" activeClassName="nav-active" exact>Register Formik Dinamico</NavLink>
             </li>
           </ul>
         </nav>
@@ -32,14 +41,24 @@ export const Navigation = () => {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/about">
-            <h1>About</h1>
+          <Route path="/registerformik">
+            <RegisterFormik/>
           </Route>
-          <Route path="/users">
-            <h1>Users</h1>
+          <Route path="/register">
+            <RegisterPage/>
           </Route>
-          <Route path="/">
-            <ShoppingPage/>
+
+          <Route path="/registerformikyup">
+            <RegisterFormikYup/>
+          </Route>
+          <Route path="/RegisterFormikComponents">
+            <RegisterFormikComponents/>
+          </Route>
+          <Route path="/RegisterFormikAbstrato">
+            <RegisterFormikAbstrato/>
+          </Route>          
+          <Route path="/RegisterFormikDinamico">
+            <RegisterFormikDinamico/>
           </Route>
         </Switch>
       </div>
