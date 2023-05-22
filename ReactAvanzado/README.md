@@ -1404,11 +1404,18 @@ export const RegisterFormikComponents = () => {
 ## Clase 144-153: 
 
 **Notas**
+- Pues la practica es lo que se deja 
+- Tenemos formas de hacer los fomularios hay que revisar las siguientes ecciones 
+- C:\Users\cuenc\Desktop\Cursos\02_Escuela_JavaScript\React\CursoUdemyReact\ReactAvanzado\Proyectos\05_basic_formik\src\03_forms\pages\RegisterFormik.tsx
+- C:\Users\cuenc\Desktop\Cursos\02_Escuela_JavaScript\React\CursoUdemyReact\ReactAvanzado\Proyectos\05_basic_formik\src\03_forms\pages\RegisterFormikAbstrato.tsx
+- C:\Users\cuenc\Desktop\Cursos\02_Escuela_JavaScript\React\CursoUdemyReact\ReactAvanzado\Proyectos\05_basic_formik\src\03_forms\pages\RegisterFormikComponents.tsx
+- C:\Users\cuenc\Desktop\Cursos\02_Escuela_JavaScript\React\CursoUdemyReact\ReactAvanzado\Proyectos\05_basic_formik\src\03_forms\pages\RegisterFormikDinamico.tsx
+- C:\Users\cuenc\Desktop\Cursos\02_Escuela_JavaScript\React\CursoUdemyReact\ReactAvanzado\Proyectos\05_basic_formik\src\03_forms\pages\RegisterFormikYup.tsx
+C:\Users\cuenc\Desktop\Cursos\02_Escuela_JavaScript\React\CursoUdemyReact\ReactAvanzado\Proyectos\05_basic_formik\src\03_forms\pages\RegisterPage.tsx
 
 
 
-
-#  Sección 12: Sección 11: Formik Dynamic y Custom Forms
+#  Sección 12: Formik Dynamic y Custom Forms
 ```
 Temas puntuales de la sección
 Esta sección está enfocada en aprender como integrar Storybook en nuestras aplicaciones de React para transformarla en una aplicación que nos ayudará a probar y desarrollar de una mejor manera nuestros componentes.
@@ -1499,3 +1506,91 @@ ReactDOM.render(
 ## Ejemplo Funcional 
 - Usando app.netlify ->  este es el enlace del componenete
 - [Ejmplo funcional](https://64652fa1fd25660c884ce2ca--musical-swan-09fe5e.netlify.app/)
+
+
+#  Sección 13: GitHub Actions + Semantic Versioning + Automatic Npm Deploy + Storybook
+
+## Clase 171:  Configuración de json para subir a npm 
+
+
+> Configuramos el pakage.json  para crear nuestro npm de stoybook 
+```
+{
+  "name": "06_story",// Ajuste 1 -> coloca nombre unico 
+  "version": "0.1.0",
+  "private": false,// Ajuste 2 -> coloca false 
+  "licence":"MIT",// Ajuste 3  -> Coloca licencia recomendada MIT
+  "typings":"dist/index.d.ts", //Ajuste 4-> Es donde va saber typerscript la definicicion de mis componenetes solo ahcerlo si usamos typescipts
+  "main":"",//Ajuste 5-> es la propiedad que le va  a decir a otras aplicaciones cual es el punto de entrada de nuestro paquete, donde se exporta todo lo necesario 
+  "homepage":"leosan.com",//Ajuste 6-> mas informacion de tus cosas  
+  "repository":{
+    "url":"",//Ajuste 7-> incluir tu repo
+    "type":"git"
+  },
+  "release":{//Ajuste 8-> indicarle cual es la rama para colaborar 
+    "branches":[
+      "main"
+    ]
+  },
+  "files":[//Ajuste 9-> indicarle cual es la rama para colaborar 
+    "dist",//-> es la que va contener los archivos typescript 
+    "src"//-> 
+  ],
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.30",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "storybook dev -p 6006",
+    "build": "storybook build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:storybook/recommended"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.12",
+    "@storybook/addon-interactions": "^7.0.12",
+    "@storybook/addon-links": "^7.0.12",
+    "@storybook/blocks": "^7.0.12",
+    "@storybook/preset-create-react-app": "^7.0.12",
+    "@storybook/react": "^7.0.12",
+    "@storybook/react-webpack5": "^7.0.12",
+    "@storybook/testing-library": "^0.0.14-next.2",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "eslint-plugin-storybook": "^0.6.12",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.0.12",
+    "webpack": "^5.82.1"
+  }
+}
+
+```
+
