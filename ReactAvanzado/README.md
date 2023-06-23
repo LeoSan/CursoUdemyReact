@@ -314,6 +314,7 @@ export const useCounter = ({maxCunter = 10})=>{
 **Recordatorios**
 Pasos para crear un proyectos: 
 - Paso 1: `npx create-react-app nombreApp --template typescript`
+- Si deseas instalar typescript de manera global -> `[sudo] npm i -g typerscript` -> no olvides el `sudo`->Linux  o ser super admnitrador -> Window
 - Paso 2: `npm start`
 
 
@@ -1512,6 +1513,7 @@ ReactDOM.render(
 
 ## Clase 171:  Configuración de json para subir a npm 
 
+- Paso 1: 
 
 > Configuramos el pakage.json  para crear nuestro npm de stoybook 
 ```
@@ -1526,6 +1528,10 @@ ReactDOM.render(
   "repository":{
     "url":"",//Ajuste 7-> incluir tu repo
     "type":"git"
+  },
+  "peerDependencies":{
+	"react":">=16",
+	"typescript":">=4.0.0"
   },
   "release":{//Ajuste 8-> indicarle cual es la rama para colaborar 
     "branches":[
@@ -1552,9 +1558,12 @@ ReactDOM.render(
   },
   "scripts": {
     "start": "storybook dev -p 6006",
-    "build": "storybook build",
+    "build": "npm clean && tsc && npm copy-files",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build", 
+	"clean": "rimraf dist/",
+	"copy-files":"copyfiles -u 1 src/**/*.css dist/"
+	
   },
   "eslintConfig": {
     "extends": [
@@ -1588,9 +1597,21 @@ ReactDOM.render(
     "eslint-plugin-storybook": "^0.6.12",
     "prop-types": "^15.8.1",
     "storybook": "^7.0.12",
-    "webpack": "^5.82.1"
+    "webpack": "^5.82.1",
+	"rimraf":"^5.0.1",
+	"copy-files":"^0.1.0"
   }
 }
 
 ```
+- Paso 1:  Configuración del tsc 
+```
+
+```
+- Paso 4: generar los index apuntando nuestros componenentes  
+
+- Paso 5: Cada ves que generes proyecto debes eliminar la carptea dist
+
+- Paso 6: ejecutamos el comando `tsc` para que te pueda compilar y generar el `dist`
+
 
