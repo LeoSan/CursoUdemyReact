@@ -1615,3 +1615,43 @@ ReactDOM.render(
 - Paso 6: ejecutamos el comando `tsc` para que te pueda compilar y generar el `dist`
 
 
+#  Sección 15: Sección 15: React + PWA
+
+## Clase 188:  Levantar los procesos de backend y frontend
+
+
+**Me quedo con estas Notas de Esta Clase**
+- Los procesos de build en react debemos generar el archivo SV Worker 
+- Los chunk permite la carga de manera peresosa esto se ve en el build/static/js/.chunk
+- React  maneja Has para evitar que los navegadores manejen el cache en nuestra aplicación 
+
+## Clase 189:  Service Worker para una aplicación existente - npx
+**Enlace**
+-  https://create-react-app.dev/docs/making-a-progressive-web-app/
+- `npx create-react-app my-app --template cra-template-pwa` ya genera el proyecto con una PWA
+- Se basa en Worbox es una PWA muy poderosa comprada por Google 
+- 
+
+## Clase 190:  workbox 
+
+- Es una tecnología que compró Google hace un par de años.
+- workbox permite generar rápidamente configuraciones estándar de service worker y configuraciones personalizadas 
+
+**enlace**
+- https://developer.chrome.com/docs/workbox/
+
+
+## Clase 191-192:  Manual  Descarga e instalacion SW  
+
+**Notas**
+- Entonces Self hace referencia a ese bisbol que ha Ben Listener es para agregar un listener, es decir,
+- En Chrome el SW tiene limitantes de 50MB 
+- En Firefox el SW tiene limitantes de 250MB 
+
+- https://web.dev/service-worker-lifecycle/?hl=es -> Como funciona el SW 
+
+## Clase 193:  Estrategias para SW 
+
+**Notas**
+- Cache Only -> Primera estrategia evita usar elrecurso extremo de internet usado para lo que usan planes de internet limitados 
+- Network first with cache fallback -> Es como que decirle primero intenta el caché, luego vete a la red a al network y si logras encontrar el network, entonces sirve el network, pero a la vez actualiza el caché y eso serviría por si en la egunda vez que la persona viene va a revisar el caché y ya va a existir.
