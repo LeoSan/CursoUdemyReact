@@ -130,7 +130,7 @@ const [counter, setCounter] = useState(initialValue);
 ```
 
 ## Clase 15: Animaciones  con npm install gsap
-> GSAP es un paquete de animaciones en js, solo debemos instalar e omplementar
+> GSAP es un paquete de animaciones en js, solo debemos instalar y complementar
 
 - Paso 1: `npm install gsap`
 - Paso 2: Incoporamos en nuestro componenete `import {gsap} from 'gsap'; `
@@ -1655,3 +1655,319 @@ ReactDOM.render(
 **Notas**
 - Cache Only -> Primera estrategia evita usar elrecurso extremo de internet usado para lo que usan planes de internet limitados 
 - Network first with cache fallback -> Es como que decirle primero intenta el caché, luego vete a la red a al network y si logras encontrar el network, entonces sirve el network, pero a la vez actualiza el caché y eso serviría por si en la egunda vez que la persona viene va a revisar el caché y ya va a existir.
+
+
+# Sección 16: Workbox
+
+**Ventajas**
+-  tengo mucho control respecto, pero hay veces que lo que yo quiero es algo sencillo y ya Word Box lo tiene listo 
+- 
+
+**enlaces**
+- https://developer.chrome.com/docs/workbox/
+
+
+**Pasos**
+- Paso 1: Debemos instalar Worbox debemos correr el siguiente comando: `npm install worbox-cli --global`
+- Paso 2: Manera de probar `workbox --version`  en caso que no reconozca el comando cierra o reinicia el equipo. 
+- Paso 3: Manera de construir el build `npm run build` ->  se vera reflejada la carperta build 
+- Paso 4: ejecutamos el wizard `workbox wizard` -> escogemos build por eso es importante el paso 3:
+- Paso 5: hay que definir que archivos seva colocar en cache -> se recomienda marcar todos y luego enter mostrar Jso, ico, html, png, txt, css, js 
+- Paso 6: debes escoger en donde se puede quedar guardado el archivo SW -> `build/sw.js` enter 
+- Paso 7: Me pregunta donde deseo guardar las configuraciones `worbox-config.js`  -> enter 
+- Paso 8: Me Pregunta si tu proyecto tiene un archivo de parametros -> `no` enter 
+- Paso 9: Luego del paso  4 widzard esto genera un archivo de configuraciones ahora debemos ejecutar el comando que genera el SW basado del widzar -> `workbox generateSW workbox-config.js`
+- Paso 10: Se genera el SW de manera auto usando CLI, Nota el paso 9 hay que ejecutarlo cada vez que se genera un build y bien sabes que se genera un build cuando se cambia algun archivo 
+- Paso 11: Debemos encontrar el `Public/index.html` debemos implementar un script YA QUE SOLO ESTO SE PUEDE IMPLEMENTAR SI ESTAMOS EN PRODUCCIÓN
+```
+<script>
+	console.log('%NODE_ENV%');
+	const isProduction = ('%NODE_ENV%' == 'production')
+	if (isProduction && 'serviceWorker' in navegator ){
+		//Vamos a poder registrar el SW 
+		//Es bueno preguntar ya que no todos los navegadores soprtan SW
+		navigator.serviceWorker.register('sw-template.js');
+	}else{
+	
+	}
+</script>
+```
+- Paso 12: Ejecutamos `npm build` y luego `workbox generateSW workbox-config.js`
+- Paso 13: de manera menos tediosa podemos configurar el script para no estar ejecutando ambos comandos 
+
+
+**Esto es para aplicaciones sencillas**
+
+# Clase 203. Workbox Cache Strategies
+- *enlace* https://developer.chrome.com/docs/workbox/modules/workbox-sw/
+
+**Creamos ahora workbox de manera mas sencilla y elegante**
+
+- **Paso 1**: Creamos en `src/` un `sw-template.js` 
+- **Paso 2**: Importamos en nuestro archivo template 
+```
+importScripts(
+  'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js'
+);
+```
+- **Paso 3**: Debemos definir nuestro precaching 
+```
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST); 
+//Esta linea busca cargar todos los arvhivos declarados en el manifest 
+```
+- **Paso 4**: se debe configurar el archivo workbox `worbox-config.js` hay que asignarle la siguiente linea  `swSrc:'src/sw-template.js'` esta es la propiedad que falle el comando `workbox generateSW workbox-config.js`
+- **Paso 5**: ejecutamos el comando `worbox injectManifest` si falla debemos comentar una seccion de `worbox-config.js` ignore esa seccion 
+Ejemplo 
+![Ejemplo](./info/Screenshot_7.png)
+- **Paso 6**: Levantamos aplicación `serve -s build`
+- **Paso 7**: Configuramos nuestro package.json para que sea mas facil la ejecución , esto se debe hacer cada ves que se desea probar el sw 
+![Ejemplo](./info/Screenshot_8.png)
+
+
+# Clase 204. Workbox Cache Strategies
+- **Paso 8**: 
+
+> La ventaja de esto es que ya workbox tiene las estrategias ya declaradas 
+
+```
+worbox.strategies.CacheFisrt()
+```
+![Ejemplo](./info/Screenshot_9.png)
+
+- **Paso 9**:  ejecutamos el comand `npm build` ya priamnete configurada y luego `serve -s build`
+- **paso 10**: desde el navegador aplication / Skinwaiting
+- **Paso 11**: Seguimos la sección con este enlace: 
+	 - https://github.com/Klerith/calendar-app-pwa/blob/workbox/src/sw-template.js 
+	 - Debemos importScripts -> importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-sw.js'); 
+	 - Claro todo esto va en -> src/sw-template.js
+
+**Ejemplo Código** 
+```
+const cacheFirstNetwork = [
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css'
+];
+
+registerRoute(
+    ({ request, url }) => {
+        console.log({url})
+
+        if ( cacheFirstNetwork.includes( url.href ) ) return true        
+
+        return false;
+    },
+    new CacheFirst()
+)
+
+```
+
+# Clase 205 206 . background-sync - Posteos sin conexion, PUT - DELETE 
+> Aqui se explica como validar y realizar los posteos sin conexción 
+
+**Notas**
+- Recuerda que si estas offline el maneja internamente el evento 
+- Al momento de volver la conexión este automaticamente hace el posteo 
+- recuerda no meter una bases de datos entera
+- Recuerda que maximo 30 Megas 
+- Los posteos se hacen siempre hace con el `NetworkOnly`
+- si dos personas sincronizan de manera offline se guarda el ultimo valor en la cola actualizado. 
+
+**Enlace**
+- https://developer.chrome.com/docs/workbox/modules/workbox-background-sync/ 
+
+**Pasos**: 
+- **Paso 12**: 
+	- Importamos ->  workbox.loadModule('workbox-background-sync');
+- Previamente hay que decarcargar  background-sync  -> esta es una intancias 
+										   ``
+```
+// Linea comando ejemplo  sw-template.js
+
+// Posteos Offline 
+const bgSyncPlugin = new BackgroundSyncPlugin('posteos-offline', {
+    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours (specified in minutes)
+});
+
+registerRoute(
+    new RegExp('http://localhost:4000/api/events'),
+    new NetworkOnly({
+        plugins: [ bgSyncPlugin ]
+    }),
+    'POST'
+)
+
+registerRoute(
+    new RegExp('http://localhost:4000/api/events/'),
+    new NetworkOnly({
+        plugins: [ bgSyncPlugin ]
+    }),
+    'DELETE'
+)
+
+registerRoute(
+    new RegExp('http://localhost:4000/api/events/'),
+    new NetworkOnly({
+        plugins: [ bgSyncPlugin ]
+    }),
+    'PUT'
+)
+
+```
+
+
+# Clase 207 . Optimizar SW 
+**Notas**
+- Podemos optimizar las peticiones 
+- Recuerda hay un anota en el video 207 para validar como ejecutar el servidor 
+
+```
+//PAsa aqui cuando se hace una nueva request
+//Optmización para el NetworkFirst
+
+const cacheNetworkFirst = [
+    '/api/auth/renew',
+    '/api/events',
+]
+ 
+registerRoute(
+    ({ request, url }) => {
+
+        // console.log({request, url})
+        if ( cacheNetworkFirst.includes( url.pathname ) ) return true
+        
+        return false;
+    },
+    new NetworkFirst()
+)
+
+//Esto reemplaza a esto 
+
+// Referencia
+// registerRoute(
+//     new RegExp('http://localhost:4000/api/auth/renew'),
+//     new NetworkFirst()
+// )
+
+
+//Optmización para el CacheFirst
+
+const cacheFirstNetwork = [
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css'
+];
+
+registerRoute(
+    ({ request, url }) => {
+        console.log({url})
+
+        if ( cacheFirstNetwork.includes( url.href ) ) return true        
+
+        return false;
+    },
+    new CacheFirst()
+)
+
+```
+
+# Clase 208 . Mostrar mensajes de Online y Offline 
+**Notas**
+- Podemos usar un pquete npm llamado react-detect-offline 
+- Paso 1: Instalamos  -> npm react-detect-offline 
+- Paso 2: Implementamos -> ya el paquete automaticamente nos avisa 
+
+```
+
+import { Offline, Online } from 'react-detect-offline'
+
+            <Online>
+                <span className="text-success">Online</span>
+            </Online>
+            <Offline>
+                <span className="text-danger">Offline - Peticiones serán guardadas</span>
+            </Offline>
+
+```
+
+## Fin de esta seccion 
+- Enlace del proyecto -> https://github.com/Klerith/calendar-app-pwa/tree/workbox
+
+
+# Sección 17: Mapas - Marcadores - Rutas - Polylines - Mapbox
+
+## Pasos: 
+- Paso 1: `npx create-react-app map-app --template=typescript`
+- Paso 2: Fernando para aplicaciones sencillas genera los siguientes repertorios: 
+	- contex
+	- interfaces
+	- screens
+	- helpers
+	- Limpiamos los elementos originales la recomendación siempre es hola mundo
+	- Como es un proyecto dummy usaos el dns de bootstrap ->     <!-- Bootstrap CSS -->
+```    
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+```    
+- Paso 3: definimos PlacesProvider.tsx, PlacesContext.tsx, PlacesReducer.tsx, Index.ts, MapsApp.tsx. 
+- Paso 4: Eliminamos el App.tsx y lo reemplazamos por MapsApp.tsx -> modificando el index.tsx 
+- Paso 5: Modificamos  el index.tsx con nuestro Mapsapp 
+```
+	import React from 'react';
+	import ReactDOM from 'react-dom/client';
+	import {MapsApp} from './MapsApp';
+
+	const root = ReactDOM.createRoot(
+	  document.getElementById('root') as HTMLElement
+	);
+	root.render(
+	  <React.StrictMode>
+		<MapsApp />
+	  </React.StrictMode>
+	);
+
+```
+
+
+	
+**Notas**: 
+- Saber usar tsx o ts, Tsx -> es si devolvemos un componentes 	
+- State y Context no es lo mismo. 
+- Context -> Es lo que le vamos a mostrar o exponer a los componentes, que puede tener funciones, metodos, propiedades. 
+- State   -> El estado es basicamente la información que almacenamos en memoria.
+- Extesión que te permite usar `shortcut` -> The ES7 React/Redux/GraphQL/React-Native Snippets Extension
+
+shortcut|Resultado|Descripcion
+-- | -- | --
+//imp | import moduleName from 'module' |Import a default export
+//imd | import { destructuredModule } from 'module' |Import a default export
+//imr | import React from 'react' |Import React and Component.
+//imrc | import React, { Component } from 'react' |For each iteration
+//fre | arrayName.forEach(element => { } |For of iteration
+//fof | for(let itemName of objectName { } |For in Iteration
+//fin | for(let itemName in objectName { } |JavaScript Functions
+//anfn | (params) => { } |Named Function
+//nfn | const functionName = (params) => { } |React Lifecycle Methods
+//cdm | componentDidMount = () => { } |ComponentDidUpdate
+//cdup | const functionName = (params) => { } |React Lifecycle Methods
+//cwun | componentWillUnmount = () => { } |React Components
+//rcc | componentDidUpdate = (prevProps, prevState) => { } |ComponentWillUnmount
+//nfn | import React, { Component } from 'react' |React Class Component With Prop Types
+//rcep | import React, { Component } from 'react' |React Functional Component
+//rfc | import React from 'react' | ComponentWillUnmount
+//rfce | import React from 'react' | ComponentWillUnmount
+//rafcp | import React from 'react' | ComponentWillUnmount
+
+
+*Nota Css*
+- Una manera buena de organizar los estilos 
+- >ascending sobre la clase CSS seleccionada
+![Ejemplo](./info/Screenshot_10.png)
+
+
+**Nota Mapas Sin google**
+- Podemos usar este MapBox, permite usar mapas sin costo y sin anexar tarjeta de credito a diferencia de google map. 
+- Podemos seguir los pasos como lo indica la imagen 
+![Ejemplo](./info/Screenshot_11.png)
+![Ejemplo](./info/Screenshot_12.png)
+![Ejemplo](./info/Screenshot_13.png)
+
+
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
