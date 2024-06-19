@@ -31,7 +31,7 @@ export const OrderTotals = ({order, tip, placeOrder}:OrderTotalsProps) => {
         </div>
         <button className="w-full bg-black p-3 uppercase text-white mt-10 disabled:opacity-10"
             disabled={totalAmount === 0}
-            onClick={()=>placeOrder}
+            onClick={placeOrder}
         >
             Guardar Orden
         </button>
