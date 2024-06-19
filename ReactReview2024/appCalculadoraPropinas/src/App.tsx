@@ -3,6 +3,7 @@ import { menuItems } from './data/bd';
 import { MenuItem } from './components/MenuItem';
 import useOrder from './hooks/useOrder';
 import { OrderContents } from './components/OrderContents';
+import { OrderTotals } from './components/OrderTotals';
 
 
 function App() {
@@ -33,6 +34,10 @@ function App() {
           <OrderContents
             order={order}
             removeItem={removeItem}
+          />
+
+          <OrderTotals
+            order={order}
           />
         </div>
 
