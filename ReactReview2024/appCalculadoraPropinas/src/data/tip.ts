@@ -1,0 +1,24 @@
+import type { Tips } from "../types"; 
+
+export const tipOptions:Tips[] = [
+    {
+      id: 'tip-10',
+      value: .10,
+      label: '10%'
+    },
+    {
+      id: 'tip-15',
+      value: .15,
+      label: '15%'
+    },
+    {
+      id: 'tip-20',
+      value: .20,
+      label: '20%'
+    },
+    {
+      id: 'tip-50',
+      value: .50,
+      label: '50%'
+    },
+  ]

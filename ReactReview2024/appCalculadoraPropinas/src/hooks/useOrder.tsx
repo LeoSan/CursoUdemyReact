@@ -1,9 +1,10 @@
 import { useState } from "react"; 
-import { MenuItem, OrderItem } from "../types";
+import { MenuItem, OrderItem, Tips } from "../types";
 
 
 export default function useOrder(){
      const [order, setOrder] = useState<OrderItem[]>([]);
+     const [tip, setTip] = useState(0);
 
      const addItem = (item:MenuItem)=>{
         const itemExist = order.find(orderItem => orderItem.id === item.id ); 
@@ -21,11 +22,19 @@ export default function useOrder(){
         setOrder(order.filter(item=> item.id !==id))
      }
 
-     console.log(order);
+     const placeOrder = ()=>{
+        console.log('Guardando...');
+        setOrder([]);
+        setTip(0);
+     }
+
     return {
         order,
+        tip, 
+        setTip,
         addItem, 
-        removeItem
+        removeItem,
+        placeOrder
 
     }
 }
