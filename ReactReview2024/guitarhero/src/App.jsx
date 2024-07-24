@@ -34,19 +34,13 @@ function App() {
                                 key={guitar.id}
                                 guitar={guitar}
                                 addToCard={addToCard}
-
                             />
                         ))
                     }
-                    
-
                 </div>
             </main>
-
             <Footer/>
-
         </>
     )
 }
-
 export default App

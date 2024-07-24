@@ -1,19 +1,32 @@
-import { useState, ChangeEvent, FormEvent, Dispatch } from "react";
+import { useState, ChangeEvent, FormEvent, Dispatch, useEffect } from "react";
+
+import {v4 as uuidv4 } from 'uuid';
+
 import { categories } from "../data/category";
 import { FaRegSave } from "react-icons/fa";
 import { AiOutlineClear } from "react-icons/ai";
 
 import useForm from '../hooks/useForm';
-import { ActivityActions } from "../reducer/activityReducer";
+import { ActivityActions, ActivityState } from "../reducer/activityReducer";
 
 type FormProps = {
-    dispatch:Dispatch<ActivityActions>
-
+    dispatch:Dispatch<ActivityActions>,
+    state:ActivityState
 }
 
-export const Form = ({dispatch}: FormProps) => {
+export const Form = ({dispatch, state}: FormProps) => {
 
     const { activity, setActivity, handleChange, isValideActivity, clearActivity, filterNameCategories } = useForm();
+
+useEffect(() => {
+    if(state.activeId){
+        const selectActivity = state.activities.filter(stateActivity=>stateActivity.id === state.activeId)[0];
+        setActivity(selectActivity);
+        console.log('ya hay algo');
+
+    }
+}, [state.activeId])
+
 
     const hanldeSubmit=(e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
@@ -21,6 +34,7 @@ export const Form = ({dispatch}: FormProps) => {
         //Ejecuta la accion del reducer 
         dispatch({type:"save-activity", payload:{newActivity:activity}}); 
         setActivity({
+            id:uuidv4(),
             category:1,
             name:'',
             calories:0

@@ -1,10 +1,12 @@
 
 import { useState, ChangeEvent, FormEvent } from "react";
+import {v4 as uuidv4 } from 'uuid';
 import type { ActivityType, CategoryType } from "../types"
 
 export default function form() {
 
     const [activity, setActivity] = useState<ActivityType>({
+        id:uuidv4(),
         category:1,
         name:'',
         calories:0
@@ -29,6 +31,7 @@ export default function form() {
      }
      const clearActivity =()=>{
         setActivity({
+            id:'0',
             category:1,
             name:'',
             calories:0
