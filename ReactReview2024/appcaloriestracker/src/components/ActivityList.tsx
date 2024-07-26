@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 import { ActivityType } from '../types';
 import { categories } from '../data/category';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { ActivityActions } from '../reducer/activityReducer';
 
 type ActivityProps = {
@@ -18,7 +18,9 @@ const ActivityList = ({activities, dispatch}:ActivityProps) => {
   return (
     <>
         <h2 className='text-2xl font-bold  text-black bg-lime-100'>Comida y Actividades</h2>
-        {
+        
+         { activities.length ===0 ? <p className='text-center my-5 bg-slate-400 text-gray-600'>No hay Actividades</p> : 
+
             activities.map(item => (
                 <div key={item.id} className='px-4 py-5 bg-lime-200 mt-5 flex justify-between'>
                     <div className='space-y-2 relative'>
@@ -31,6 +33,11 @@ const ActivityList = ({activities, dispatch}:ActivityProps) => {
                             onClick={()=>dispatch({type:"set-activityId", payload: { id:item.id }})}>
                              <PencilSquareIcon
                                 className='h-8 w-8 text-gray-800'/>
+                         </button>
+                         <button 
+                            onClick={()=>dispatch({type:"delete-activity", payload: { id:item.id }})}>
+                             <XCircleIcon
+                                className='h-8 w-8 text-red-800'/>
                          </button>
                     </div>
                 </div>

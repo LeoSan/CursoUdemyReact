@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import { ActivityReducer, initialState } from './reducer/activityReducer';
 import './App.css'
 import { Form } from './components/Form';
@@ -7,6 +7,10 @@ import ActivityList from './components/ActivityList';
 function App() {
   const [state, dispatch] = useReducer(ActivityReducer , initialState);
 
+  useEffect(() => {
+      localStorage.setItem('activities', JSON.stringify(state.activities) );
+  }, [state.activities])
+  
   return (
     <>
       <header className='bg-blue-500 py-3'>
